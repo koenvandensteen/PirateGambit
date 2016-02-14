@@ -94,10 +94,8 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-    public List<List<GameObject>> GenerateMap(int mapSize, int borderSize, float hexRadius)
+    public HexMap CreateHexMap(int mapSize, float hexRadius)
     {
-        int totalSize = mapSize + 2 * borderSize;
-
         int differentTyleTypes = (int)GameTile.TileType.COUNT - 1;
 
         for (int i = 0; i < differentTyleTypes; i++)
@@ -108,12 +106,15 @@ public class MapGenerator : MonoBehaviour
         if (_emptyTileList.Count > 0)
             _emptyTileList.Clear();
 
-        List<List<GameObject>> gameMap = new List<List<GameObject>>();
+        HexMap gameMap = new HexMap();
+
+
         List<Vector2> hiddenTiles = new List<Vector2>();
         float heigth = hexRadius * 2f;
         float width = Mathf.Sqrt(3f) / 2f * heigth;
 
-        Vector3 startOffset = new Vector3(-(totalSize * width) / 4f + width / 4f, 0, (totalSize * heigth * 3 / 4) / 2f - (heigth * 3 / 4) / 2);
+        Vector3 startOffset = new Vector3(-(mapSize * width) / 4f + width / 4f, 0, (mapSize * heigth * 3 / 4) / 2f - (heigth * 3 / 4) / 2);
+
         int count = 0;
         int curXoffset = 1;
         int curIndex = 0;
@@ -122,79 +123,66 @@ public class MapGenerator : MonoBehaviour
 
         int Q = 0, R = 0;
 
-        for (int r = 0; r < totalSize; r++)
+        for (int r = 0; r < mapSize; r++)
         {
             var newRow = new List<GameObject>();
 
-            for (int q = 0; q < totalSize / 2 + curXoffset; q++)
+            for (int q = 0; q < mapSize / 2 + curXoffset; q++)
             {
                 Vector3 SpawnPos = startOffset + new Vector3((width * q - (curXoffset - 1) * width / 2), 0, -heigth * 3 / 4 * r);
 
                 var tile = Instantiate(HexTile, SpawnPos, Quaternion.identity) as GameObject;
-                //tile.GetComponent<HexagonMesh>().Radius = hexRadius;
 
+                tile.GetComponent<GameTile>().BorderColor = BorderColors[(int)GameTile.TileType.EMPTY];
+                tile.GetComponent<GameTile>().IsEmpty = true;
 
-                if (r >= borderSize && r < borderSize + mapSize && q >= borderSize && q < totalSize / 2 + curXoffset - borderSize)
+                int indexX;
+
+                if (r <= mapSize / 2)
+                    indexX = q - r;
+                else
                 {
-                    tile.GetComponent<GameTile>().BorderColor = BorderColors[(int)GameTile.TileType.EMPTY];
-                    tile.GetComponent<GameTile>().IsEmpty = true;
-
-
-
-                    //int indexX = q - borderSize - mapSize / 2;
-                    //int indexY = r - borderSize - (mapSize / 2 + Mathf.Min(0, q - borderSize));
-
-
-                    int indexX;
-
-                    if (r <= mapSize / 2)
-                        indexX = q - r;
-                    else
-                    {
-                        indexX = q - r + counter;
-                    }
-
-                    int indexY = r - mapSize / 2;
-
-
-                    tile.name = string.Format("X: {0} Y: {1}", indexX, indexY);
-
-                    tile.transform.parent = transform;
-                    tile.GetComponent<GameTile>().Q = indexX;
-                    tile.GetComponent<GameTile>().R = indexY;
-
-                    if (indexX == 0 && indexY == 0)
-                    {
-
-                    }
-                    else
-                    {
-                        _emptyTileList.Add(new Vector2(q - borderSize, r - borderSize));
-                        hiddenTiles.Add(new Vector2(indexX, indexY));
-                    }
-
-                    newRow.Add(tile);
-
-                    ++count;
-                    ++Q;
+                    indexX = q - r + counter;
                 }
+
+                int indexY = r - mapSize / 2;
+
+
+                tile.name = string.Format("X: {0} Y: {1}", indexX, indexY);
+
+                tile.transform.parent = transform;
+                tile.GetComponent<GameTile>().Q = indexX;
+                tile.GetComponent<GameTile>().R = indexY;
+
+                if (indexX == 0 && indexY == 0)
+                {
+
+                }
+                else
+                {
+                    _emptyTileList.Add(new Vector2(q, r));
+                    hiddenTiles.Add(new Vector2(indexX, indexY));
+                }
+
+                newRow.Add(tile);
+
+                ++count;
+                ++Q;
+
 
                 tile.transform.parent = transform;
 
             }
 
-            if (r < totalSize / 2)
+            if (r < mapSize / 2)
                 ++curXoffset;
             else
                 --curXoffset;
 
-            if (r >= borderSize && r < borderSize + mapSize)
-            {
-                gameMap.Add(newRow);
-                ++R;
-                if (R > mapSize / 2)
-                    ++counter;
-            }
+            gameMap.AddRow(newRow);
+            ++R;
+            if (R > mapSize / 2)
+                ++counter;
 
             curIndex--;
         }
@@ -234,12 +222,12 @@ public class MapGenerator : MonoBehaviour
                 int randIndex = Random.Range(0, _emptyTileList.Count);
                 Vector2 tileIndex = _emptyTileList[randIndex];
 
-                if (gameMap[(int)tileIndex.y][(int)tileIndex.x].GetComponentInChildren<GameTile>().IsEmpty)
+                if (gameMap.GetRow((int)tileIndex.y)[(int)tileIndex.x].GetComponentInChildren<GameTile>().IsEmpty)
                 {
-                    gameMap[(int)tileIndex.y][(int)tileIndex.x].GetComponent<GameTile>().HiddenObject = HiddenObjectList[i][Random.Range(0, HiddenObjectList[i].Count)];
-                    gameMap[(int)tileIndex.y][(int)tileIndex.x].GetComponent<GameTile>().IsEmpty = false;
-                    gameMap[(int)tileIndex.y][(int)tileIndex.x].GetComponent<GameTile>().ThisType = (GameTile.TileType)i + 1;
-                    gameMap[(int)tileIndex.y][(int)tileIndex.x].GetComponent<GameTile>().BorderColor = BorderColors[i + 1];
+                    gameMap.GetRow((int)tileIndex.y)[(int)tileIndex.x].GetComponent<GameTile>().HiddenObject = HiddenObjectList[i][Random.Range(0, HiddenObjectList[i].Count)];
+                    gameMap.GetRow((int)tileIndex.y)[(int)tileIndex.x].GetComponent<GameTile>().IsEmpty = false;
+                    gameMap.GetRow((int)tileIndex.y)[(int)tileIndex.x].GetComponent<GameTile>().ThisType = (GameTile.TileType)i + 1;
+                    gameMap.GetRow((int)tileIndex.y)[(int)tileIndex.x].GetComponent<GameTile>().BorderColor = BorderColors[i + 1];
 
                     if (i == (int)GameTile.TileType.BAD - 1)
                         ++GameManager.ThisManager.GetComponent<GameManager>().MaxKrakenAmmount;
@@ -247,15 +235,11 @@ public class MapGenerator : MonoBehaviour
                     if (i == (int)GameTile.TileType.TREASURE - 1)
                         ++GameManager.ThisManager.GetComponent<GameManager>().MaxTreasureAmmount;
 
-
                     _emptyTileList.RemoveAt(randIndex);
                     _curTileAmmount[i]++;
                 }
             }
         }
-
-
-
 
         return gameMap;
     }

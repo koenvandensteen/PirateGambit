@@ -70,19 +70,19 @@ public class WildLifeManager : MonoBehaviour {
     }
 
     private void SpawnDolphinEvent() {
-        _curDolphinInterval += Time.deltaTime;
+        //_curDolphinInterval += Time.deltaTime;
 
-        int randX = Random.Range(0, _thisManager.GameMap.Count);
-        int randY = Random.Range(0, _thisManager.GameMap[randX].Count);
-        var tile = _thisManager.GameMap[randX][randY];
-        _spawnPos = tile.transform.position;
+        //int randX = Random.Range(0, _thisManager.GameMap.Count);
+        //int randY = Random.Range(0, _thisManager.GameMap[randX].Count);
+        //var tile = _thisManager.GameMap[randX][randY];
+        //_spawnPos = tile.transform.position;
 
-        var angle = Random.Range(0, 6);
+        //var angle = Random.Range(0, 6);
 
-        var dolphin = Instantiate(Dolphin, _spawnPos, Quaternion.Euler(0, angle * 60, 0)) as GameObject;
+        //var dolphin = Instantiate(Dolphin, _spawnPos, Quaternion.Euler(0, angle * 60, 0)) as GameObject;
 
-        // Destroy(dolphin, Random.Range(5f, 7f));
-        _curEvent = RandomEvent.Idle;
+        //// Destroy(dolphin, Random.Range(5f, 7f));
+        //_curEvent = RandomEvent.Idle;
     }
 
     private void SpawnWhaleEvent() {

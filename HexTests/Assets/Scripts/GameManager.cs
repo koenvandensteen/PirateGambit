@@ -9,12 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public enum GameState {
+public enum GameState
+{
     Pause,
     Play,
 }
 
-public enum TutorialInfo {
+public enum TutorialInfo
+{
     Intro,
     FirstMove,
     Treasure,
@@ -27,7 +29,8 @@ public enum TutorialInfo {
     Count
 }
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
 
     public static GameManager ThisManager;
@@ -39,12 +42,16 @@ public class GameManager : MonoBehaviour {
     public InGameMenu_Main InGameMenu;
 
     private GameState _state = GameState.Play;
-    public GameState State {
-        get {
+    public GameState State
+    {
+        get
+        {
             return _state;
         }
-        set {
-            switch (value) {
+        set
+        {
+            switch (value)
+            {
                 case GameState.Pause:
                     break;
                 case GameState.Play:
@@ -59,22 +66,22 @@ public class GameManager : MonoBehaviour {
 
     public int MaxTreasureAmmount { get; set; }
 
-
-
     public ParticleSystem TreasureParticles;
     public BarrelRevealScript BarrelParticles;
     public MapRevealScript MapParticles;
+
     public List<Vector2> HiddenTileList;
-    private readonly Vector2[] _neighBours = { new Vector2(+1, 0), new Vector2(0, +1), new Vector2(-1, +1), new Vector2(-1, 0), new Vector2(0, -1), new Vector2(+1, -1) };
 
     [HideInInspector]
     public int MaxKrakenAmmount;
 
     #region Current Krakens
     private int _curKrakenAmmount;
-    public int CurKrakenAmmount {
+    public int CurKrakenAmmount
+    {
         get { return _curKrakenAmmount; }
-        private set {
+        private set
+        {
             _curKrakenAmmount = value;
             if (CurKrakenAmmountChangedImplementation != null)
                 CurKrakenAmmountChangedImplementation(value);
@@ -91,11 +98,14 @@ public class GameManager : MonoBehaviour {
 
     #region Collected Treasure
     private int _collectedTreasureAmount;
-    public int CollectedTreasureAmount {
+    public int CollectedTreasureAmount
+    {
         get { return _collectedTreasureAmount; }
-        private set {
+        private set
+        {
             _collectedTreasureAmount = value;
-            if (_collectedTreasureAmount >= MaxTreasureAmmount) {
+            if (_collectedTreasureAmount >= MaxTreasureAmmount)
+            {
                 GameOver(true);
             }
             if (TreasureChangedImplementation != null)
@@ -109,9 +119,11 @@ public class GameManager : MonoBehaviour {
 
     #region Danger Level
     private int _curDangerLevel;
-    public int CurDangerlevel {
+    public int CurDangerlevel
+    {
         get { return _curDangerLevel; }
-        set {
+        set
+        {
             _curDangerLevel = value;
             if (DangerLevelChangedImplementation != null)
                 DangerLevelChangedImplementation(value);
@@ -124,9 +136,11 @@ public class GameManager : MonoBehaviour {
 
     #region Immunity Level
     private int _RumLevel;
-    public int RumLevel {
+    public int RumLevel
+    {
         get { return _RumLevel; }
-        set {
+        set
+        {
             _RumLevel = value;
             if (RumlevelChangedImplementation != null)
                 RumlevelChangedImplementation(value);
@@ -148,10 +162,13 @@ public class GameManager : MonoBehaviour {
     private Transform _arrowTransform;
     private GameTile _selectedTile;
 
-    public PlayerMove _curPlayer {
+    public PlayerMove _curPlayer
+    {
         get; private set;
     }
-    public List<List<GameObject>> GameMap;
+
+    public HexMap GameMap;
+
     public Vector3 LookAtTarget { get; set; }
 
     public bool IsNewPosition = false;
@@ -165,7 +182,6 @@ public class GameManager : MonoBehaviour {
     public int MediumMapSize = 9;
     public int HardMapSize = 11;
     private int _curMapSize;
-    public int BorderSize = 0;
     public int HexRadius = 1;
     public int MapTilePower = 5;
     public int HiddenTiles { get; set; }
@@ -187,11 +203,14 @@ public class GameManager : MonoBehaviour {
 
     #region Player Variables
     private bool _isImune = false;
-    public bool IsImune {
-        get {
+    public bool IsImune
+    {
+        get
+        {
             return _isImune;
         }
-        private set {
+        private set
+        {
             _isImune = value;
             _curPlayer.Shield.SetActive(value);
         }
@@ -216,12 +235,16 @@ public class GameManager : MonoBehaviour {
     public SwipeManager SwipeVisualization;
     private bool _swipingEnabled = false;
 
-    public bool EnableSwipe {
-        get {
+    public bool EnableSwipe
+    {
+        get
+        {
             return _swipingEnabled;
         }
-        set {
-            if (SwipeVisualization != null) {
+        set
+        {
+            if (SwipeVisualization != null)
+            {
                 SwipeVisualization.DoShow = value;
             }
             _swipingEnabled = value;
@@ -232,8 +255,10 @@ public class GameManager : MonoBehaviour {
     public float GameTime { get { return _timer; } }
     #endregion
 
-    void Awake() {
-        if (!ThisManager) {
+    void Awake()
+    {
+        if (!ThisManager)
+        {
             ThisManager = this;
 
         }
@@ -244,7 +269,8 @@ public class GameManager : MonoBehaviour {
     //private HighScoreScript _highScoreManager; 
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
 
 #if UNITY_ANDROID || UNITY_IOS
         IsMobile = true;
@@ -258,30 +284,31 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    public void PauseGame() {
+    public void PauseGame()
+    {
         SwipeVisualization.gameObject.SetActive(false);
         State = GameState.Pause;
     }
 
-    public void ResumeGame() {
+    public void ResumeGame()
+    {
         SwipeVisualization.gameObject.SetActive(true);
         State = GameState.Play;
     }
 
-    public void StartNewGame() {
+    public void StartNewGame()
+    {
         State = GameState.Play;
         _timer = 0;
 
-        if (_curPlayer != null) {
+        if (_curPlayer != null)
+        {
             Destroy(_curPlayer.gameObject);
         }
 
-        if (GameMap != null) {
-            foreach (var tileList in GameMap) {
-                foreach (var tile in tileList) {
-                    Destroy(tile);
-                }
-            }
+        if (GameMap != null)
+        {
+            GameMap.ClearMap();
         }
 
         _curPos = new Vector2(0, 0);
@@ -289,7 +316,8 @@ public class GameManager : MonoBehaviour {
         if (_mapGenerator == null)
             _mapGenerator = GetComponent<MapGenerator>();
 
-        switch (DifficultyStateObject.CurDifficultyState) {
+        switch (DifficultyStateObject.CurDifficultyState)
+        {
             case DifficultyStateObject.DifficultyState.Easy:
                 _curMapSize = EasyMapSize;
                 break;
@@ -301,15 +329,16 @@ public class GameManager : MonoBehaviour {
                 break;
         }
 
-        GameMap = _mapGenerator.GenerateMap(_curMapSize, BorderSize, HexRadius);
+        GameMap = _mapGenerator.CreateHexMap(_curMapSize, HexRadius);
+        GameMap.CheckNeighbours();
 
-        CheckNeighbours();
-        GetTile(0, 0).GetComponent<GameTile>().ThisType = GameTile.TileType.EMPTY;
-        GetTile(0, 0).GetComponent<GameTile>().ActivateTile();
+
+        GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ThisType = GameTile.TileType.EMPTY;
+        GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ActivateTile();
 
         CollectedTreasureAmount = 0;
 
-        _curPlayer = (Instantiate(PlayerObject, GetTile(_curPos).transform.position, Quaternion.identity) as GameObject).GetComponent<PlayerMove>();
+        _curPlayer = (Instantiate(PlayerObject, GameMap.GetTile(_curPos).transform.position, Quaternion.identity) as GameObject).GetComponent<PlayerMove>();
         _curPlayer.MovementSpeed = MovementSpeed;
         _curPlayer.RotationSpeed = RotationSpeed;
         _curPlayer.IsDead = false;
@@ -322,7 +351,8 @@ public class GameManager : MonoBehaviour {
         RumLevel = 0;
         CurKrakenAmmount = 0;
 
-        for (int i = 0; i < (int)TutorialInfo.Count; i++) {
+        for (int i = 0; i < (int)TutorialInfo.Count; i++)
+        {
             _tutorialIsShown[i] = false;
         }
         ShowTutorialInfo(TutorialInfo.Intro, null);
@@ -333,95 +363,119 @@ public class GameManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (State != GameState.Play || _curPlayer.IsDead)
             return; //don't update swipe gestures when in menu, use UI Onclick.
 
         //Update timer for score
         _timer += Time.deltaTime;
 
-        if (_rightClickCounter > 0) {
+        if (_rightClickCounter > 0)
+        {
             _rightClickCounter -= Time.deltaTime;
         }
 
-        if (!_curPlayer.IsMoving) {
-            if (IsMobile || EnableSwipe) {
+        if (!_curPlayer.IsMoving)
+        {
+            if (IsMobile || EnableSwipe)
+            {
                 //Start swipe
 
-                if (Input.touchCount >= 2) {
+                if (Input.touchCount >= 2)
+                {
                     _isSwiping = false;
                     return;
                 }
 
-                if (Input.GetMouseButtonDown(0) && Input.touchCount < 2) {
+                if (Input.GetMouseButtonDown(0) && Input.touchCount < 2)
+                {
                     _isSwiping = true;
                     _mouseStartPos = Input.mousePosition;
                 }
                 //During swipe
-                if (_isSwiping) {
+                if (_isSwiping)
+                {
                     Vector2 moveOffset = GetMoveOffset((float)GetSwipeAngle());
-                    var tile = GetTile(_curPos + moveOffset);
+                    var tile = GameMap.GetTile(_curPos + moveOffset);
 
-                    if (tile) {
-                        if (_selectedTile) {
+                    if (tile)
+                    {
+                        if (_selectedTile)
+                        {
                             _selectedTile.Highlighted = false;
                             _selectedTile = null;
                         }
-                        if (((Vector3)_mouseStartPos - Input.mousePosition).magnitude > MinSwipeLength) {
+                        if (((Vector3)_mouseStartPos - Input.mousePosition).magnitude > MinSwipeLength)
+                        {
                             SwipeVisualization.DoShow = true;
                             _selectedTile = tile.GetComponent<GameTile>();
                             _selectedTile.Highlighted = true;
-                        } else {
+                        }
+                        else
+                        {
                             SwipeVisualization.DoShow = false;
                         }
                     }
-                } else {
-                    if (_selectedTile) {
+                }
+                else
+                {
+                    if (_selectedTile)
+                    {
                         _selectedTile.Highlighted = false;
                         _selectedTile = null;
                     }
                 }
 
                 //End swipe
-                if (Input.GetMouseButtonUp(0) && _isSwiping && !_curPlayer.IsMoving) {
+                if (Input.GetMouseButtonUp(0) && _isSwiping && !_curPlayer.IsMoving)
+                {
                     _isSwiping = false;
                     _mouseEndPos = Input.mousePosition;
                     ProcesSwipe();
-                    if (_selectedTile) {
+                    if (_selectedTile)
+                    {
                         _selectedTile.Highlighted = false;
                         _selectedTile = null;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 procesMouse();
-                if (_rightClickCounter <= 0) {
-                    if (Input.GetMouseButtonDown(1)) {
+                if (_rightClickCounter <= 0)
+                {
+                    if (Input.GetMouseButtonDown(1))
+                    {
                         ProcessRightMouseClick();
                         _rightClickCounter = TimeBetweenRightClick;
                     }
                 }
             }
 
-            if (!_curPlayer.IsMoving) {
+            if (!_curPlayer.IsMoving)
+            {
                 CheckCurrentTile();
             }
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             //ShowObjects();
         }
     }
 
-    void ShowObjects() {
-        foreach (var list in GameMap) {
-            foreach (var tile in list) {
-                tile.GetComponent<GameTile>().ShowObject();
-            }
-        }
-    }
+    //void ShowObjects() {
+    //    foreach (var list in GameMap) {
+    //        foreach (var tile in list) {
+    //            tile.GetComponent<GameTile>().ShowObject();
+    //        }
+    //    }
+    //}
 
-    void ProcessRightMouseClick() {
+    void ProcessRightMouseClick()
+    {
 
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -431,24 +485,31 @@ public class GameManager : MonoBehaviour {
         var clickedPos = ray.origin + ray.direction * delta;
         // GameObject.Instantiate(PlayerObject, clickedPos, Quaternion.identity);
 
-        float q = clickedPos.x * Mathf.Sqrt(3f) / 3f - (-clickedPos.z) / 3f;
-        float r = (-clickedPos.z) * 2f / 3f;
+        float x = clickedPos.x * Mathf.Sqrt(3f) / 3f - (-clickedPos.z) / 3f;
+        float y = (-clickedPos.z) * 2f / 3f;
 
-        var tile = GetTile(RoundHex(q, r));
-        if (tile != null) {
+        var tile = GameMap.GetClickedTile(new Vector2(x, y));
+
+
+        if (tile != null)
+        {
             tile.GetComponent<GameTile>().CurrentTileStatus++;
             if (!tile.GetComponent<GameTile>().IsHidden)
                 return;
-            if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.FLAGGED_DANGER) {
+            if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.FLAGGED_DANGER)
+            {
                 ++CurKrakenAmmount;
-            } else {
+            }
+            else
+            {
                 --CurKrakenAmmount;
             }
         }
 
     }
 
-    void procesMouse() {
+    void procesMouse()
+    {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         float delta = 0;
@@ -458,7 +519,8 @@ public class GameManager : MonoBehaviour {
 
         Vector2 vectorDir = new Vector2((clickedPos.x - _curPlayer.transform.position.x), (clickedPos.z - _curPlayer.transform.position.z));
 
-        if (vectorDir.magnitude > 1 && vectorDir.magnitude < 2.5) {
+        if (vectorDir.magnitude > 1 && vectorDir.magnitude < 2.5)
+        {
             //_arrowTransform.gameObject.SetActive(true);
             //_arrowTransform.rotation = Quaternion.Euler(0, GetSwipeAngle(), 0);
 
@@ -467,25 +529,30 @@ public class GameManager : MonoBehaviour {
                 angle += 360;
 
             Vector2 moveOffset = GetMoveOffset(angle);
-            var tile = GetTile(_curPos + moveOffset);
+            var tile = GameMap.GetTile(_curPos + moveOffset);
 
 
             //_arrowTransform.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", new Color(255, 0, 0, 125));
-            if (tile) {
-                if (_selectedTile) {
+            if (tile)
+            {
+                if (_selectedTile)
+                {
                     _selectedTile.Highlighted = false;
                     _selectedTile = null;
                 }
-                if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR) {
+                if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
+                {
                     _selectedTile = tile.GetComponent<GameTile>();
                     _selectedTile.Highlighted = true;
                     //_arrowTransform.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", new Color(255, 255, 102, 125));
                 }
             }
 
-            if (Input.GetMouseButtonUp(0)) {
+            if (Input.GetMouseButtonUp(0))
+            {
                 //_arrowTransform.gameObject.SetActive(false);
-                if (_selectedTile) {
+                if (_selectedTile)
+                {
                     _selectedTile.Highlighted = false;
                     _selectedTile = null;
                 }
@@ -493,8 +560,11 @@ public class GameManager : MonoBehaviour {
                 MovePlayer(vectorDir);
                 //_arrowTransform.position = GetTile(_curPos).transform.position;
             }
-        } else {
-            if (_selectedTile) {
+        }
+        else
+        {
+            if (_selectedTile)
+            {
                 _selectedTile.Highlighted = false;
                 _selectedTile = null;
             }
@@ -502,68 +572,86 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void ProcesSwipe() {
+    void ProcesSwipe()
+    {
         Vector2 vectorDir = _mouseEndPos - _mouseStartPos;
 
-        if (vectorDir.magnitude > MinSwipeLength) {
+        if (vectorDir.magnitude > MinSwipeLength)
+        {
             MovePlayer(vectorDir);
-        } else {
+        }
+        else
+        {
             ProcessRightMouseClick();
         }
     }
 
-    Vector2 GetMoveOffset(float angle) {
+    Vector2 GetMoveOffset(float angle)
+    {
         if (angle > 0 && angle < 60) //Move Right Up
         {
             return new Vector2(+1, -1);
-        } else if (angle > 60 && angle < 120) //move right
-          {
+        }
+        else if (angle > 60 && angle < 120) //move right
+        {
             return new Vector2(+1, 0);
-        } else if (angle > 120 && angle < 180) //move right down
-          {
+        }
+        else if (angle > 120 && angle < 180) //move right down
+        {
             return new Vector2(0, +1);
-        } else if (angle > 180 && angle < 240) //move left down
-          {
+        }
+        else if (angle > 180 && angle < 240) //move left down
+        {
             return new Vector2(-1, +1);
-        } else if (angle > 240 && angle < 300) //move left
-          {
+        }
+        else if (angle > 240 && angle < 300) //move left
+        {
             return new Vector2(-1, 0);
-        } else //move left up
-          {
+        }
+        else //move left up
+        {
             return new Vector2(0, -1);
         }
     }
 
-    void MovePlayer(Vector2 direction) {
+    void MovePlayer(Vector2 direction)
+    {
         float angle = Mathf.Atan2(direction.x, direction.y) * 180 / Mathf.PI;
         if (angle < 0)
             angle += 360;
 
         Vector2 moveOffset = GetMoveOffset(angle);
 
-        var tile = GetTile(_curPos + moveOffset);
+        var tile = GameMap.GetTile(_curPos + moveOffset);
 
-        if (tile) {
+        if (tile)
+        {
             //Check if the status is CLEAR (no flag placed on the tile)
-            if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR) {
-                if (_isFirstTurn && tile.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD) {
+            if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
+            {
+                if (_isFirstTurn && tile.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD)
+                {
 
-                } else {
+                }
+                else
+                {
                     tile.GetComponent<GameTile>().ShowObject();
                 }
 
                 _curPlayer.SetMoveStart(tile.transform.position);
                 _curPos += moveOffset;
-                CurDangerlevel = GetTile(_curPos).GetComponent<GameTile>().BadNeighbours;
+                CurDangerlevel = GameMap.GetTile(_curPos).GetComponent<GameTile>().BadNeighbours;
             }
         }
     }
 
-    int GetSwipeAngle() {
+    int GetSwipeAngle()
+    {
         Vector2 curMousePos = Input.mousePosition;
         Vector2 vectorDir = curMousePos - _mouseStartPos;
 
-        if (!IsMobile && !EnableSwipe) {
+        if (!IsMobile && !EnableSwipe)
+        {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane plane = new Plane(Vector3.up, Vector3.zero);
 
@@ -584,9 +672,10 @@ public class GameManager : MonoBehaviour {
         return lockedAngle;
     }
 
-    public void CheckCurrentTile() {
+    public void CheckCurrentTile()
+    {
 
-        var curTile = GetTile(_curPos).GetComponent<GameTile>();
+        var curTile = GameMap.GetTile(_curPos).GetComponent<GameTile>();
 
         if (curTile.IsActivated)
             return;
@@ -594,11 +683,13 @@ public class GameManager : MonoBehaviour {
         //curTile.ShowObject();
 
         //Set child rotation to match player
-        for (int i = 0; i < curTile.transform.childCount; i++) {
+        for (int i = 0; i < curTile.transform.childCount; i++)
+        {
             curTile.transform.GetChild(i).transform.rotation = _curPlayer.transform.rotation * Quaternion.Euler(0, 180, 0);
         }
 
-        switch (curTile.ThisType) {
+        switch (curTile.ThisType)
+        {
             case GameTile.TileType.EMPTY:
                 curTile.ActivateTile();
                 HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
@@ -610,7 +701,8 @@ public class GameManager : MonoBehaviour {
                 AudioManager.Instance.PlaySound("coinSfx", 1.2f);
                 ++CollectedTreasureAmount;
 
-                if (TreasureParticles != null) {
+                if (TreasureParticles != null)
+                {
                     var ps = Instantiate(TreasureParticles, curTile.transform.position, Quaternion.Euler(-90, 0, 0)) as ParticleSystem;
                     ps.Play();
                     Destroy(ps, 2.0f);
@@ -621,13 +713,16 @@ public class GameManager : MonoBehaviour {
                 if (_arrowTransform)
                     _arrowTransform.gameObject.SetActive(false);
 
-                if (!IsImune && !_isFirstTurn) {
+                if (!IsImune && !_isFirstTurn)
+                {
 
                     curTile.ActivateTile();
                     GameOver(false);
                     Destroy(gameObject);
 
-                } else if (_isFirstTurn) {
+                }
+                else if (_isFirstTurn)
+                {
                     curTile.GetComponent<GameTile>().BorderColor = GetComponent<MapGenerator>().BorderColors[0];
                     curTile.GetComponent<GameTile>().ThisType = GameTile.TileType.EMPTY;
                     curTile.GetComponent<GameTile>().IsEmpty = true;
@@ -635,9 +730,11 @@ public class GameManager : MonoBehaviour {
                     curTile.GetComponent<GameTile>().ActivateTile();
                     HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
                     --MaxKrakenAmmount;
-                    LowerNeighbourDangerCounter();
-                } else if (_isImune) {
-                    LowerNeighbourDangerCounter();
+                    GameMap.LowerNeighbourDangerCounter(_curPos);
+                }
+                else if (_isImune)
+                {
+                    GameMap.LowerNeighbourDangerCounter(_curPos);
                     curTile.ActivateTile();
                     HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
                     Destroy(curTile.GetComponent<GameTile>().HiddenObject);
@@ -658,10 +755,12 @@ public class GameManager : MonoBehaviour {
                     ShowTutorialInfo(TutorialInfo.MapActivate, list);
                     _tutorialIsShown[(int)TutorialInfo.Map] = true;
 
-                    foreach (var tile in list) {
+                    foreach (var tile in list)
+                    {
                         tile.GetComponent<GameTile>().ShowEmphasis(3.0f);
 
-                        switch (tile.GetComponent<GameTile>().ThisType) {
+                        switch (tile.GetComponent<GameTile>().ThisType)
+                        {
                             case GameTile.TileType.MAP:
                                 if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
                                     ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { tile.gameObject });
@@ -685,10 +784,12 @@ public class GameManager : MonoBehaviour {
                     HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
                     var list = ActivateTileKeg();
                     ShowTutorialInfo(TutorialInfo.Powderkeg, list);
-                    foreach (var tile in list) {
+                    foreach (var tile in list)
+                    {
                         tile.GetComponent<GameTile>().ShowEmphasis(3.0f);
 
-                        switch (tile.GetComponent<GameTile>().ThisType) {
+                        switch (tile.GetComponent<GameTile>().ThisType)
+                        {
                             case GameTile.TileType.MAP:
                                 if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
                                     ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { tile.gameObject });
@@ -725,7 +826,8 @@ public class GameManager : MonoBehaviour {
         IsImune = false;
         _isFirstTurn = false;
 
-        switch (curTile.GetComponent<GameTile>().ThisType) {
+        switch (curTile.GetComponent<GameTile>().ThisType)
+        {
             case GameTile.TileType.MAP:
                 if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
                     ShowTutorialInfo(TutorialInfo.Map, null);
@@ -741,11 +843,15 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    void ShowTutorialInfo(TutorialInfo tutInfo, List<GameObject> gameObjects) {
-        if (ShowTutorial) {
+    void ShowTutorialInfo(TutorialInfo tutInfo, List<GameObject> gameObjects)
+    {
+        if (ShowTutorial)
+        {
 
-            if (!_tutorialIsShown[(int)tutInfo]) {
-                if (ShowTutorialScreenImplementationScreen != null) {
+            if (!_tutorialIsShown[(int)tutInfo])
+            {
+                if (ShowTutorialScreenImplementationScreen != null)
+                {
                     ShowTutorialScreenImplementationScreen(new TutorialData(tutInfo, gameObjects));
                     _tutorialIsShown[(int)tutInfo] = true;
                 }
@@ -754,18 +860,21 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    List<GameObject> ActivateTileMap() {
+    List<GameObject> ActivateTileMap()
+    {
         List<GameObject> tiles = new List<GameObject>(MapTilePower);
 
-        for (int i = 0; i < MapTilePower; ++i) {
+        for (int i = 0; i < MapTilePower; ++i)
+        {
             if (HiddenTileList.Count <= 0)
                 return tiles;
 
             int randomIndex = Random.Range(0, HiddenTileList.Count);
             var tileCoords = HiddenTileList[randomIndex];
 
-            var tile = GetTile(tileCoords);
-            if (tile != null) {
+            var tile = GameMap.GetTile(tileCoords);
+            if (tile != null)
+            {
                 tiles.Add(tile);
                 tile.GetComponent<GameTile>().ShowObject();
                 if (tile.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD && tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
@@ -777,27 +886,36 @@ public class GameManager : MonoBehaviour {
         return tiles;
     }
 
-    List<GameObject> ActivateTileKeg() {
+    List<GameObject> ActivateTileKeg()
+    {
         List<GameObject> tiles = new List<GameObject>();
 
-        foreach (var dir in _neighBours) {
-            var neighbour = GetTile(_curPos + dir);
-            if (neighbour) {
-                if (neighbour.GetComponent<GameTile>().IsHidden) {
+        foreach (var neighbour in GameMap.GetNeighBours(_curPos))
+        {
+            if (neighbour)
+            {
+                if (neighbour.GetComponent<GameTile>().IsHidden)
+                {
                     neighbour.GetComponent<GameTile>().ShowEmphasis(3.0f);
                     tiles.Add(neighbour);
                 }
-                if (neighbour.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD && neighbour.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR && !neighbour.GetComponent<GameTile>().IsActivated && neighbour.GetComponent<GameTile>().IsHidden)
+                if (neighbour.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD
+                    && neighbour.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR
+                    && !neighbour.GetComponent<GameTile>().IsActivated
+                    && neighbour.GetComponent<GameTile>().IsHidden)
+                {
                     ++CurKrakenAmmount;
+                }
+
                 neighbour.GetComponent<GameTile>().ShowObject();
-                
                 HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(neighbour.GetComponent<GameTile>().Q, neighbour.GetComponent<GameTile>().R)));
             }
         }
         return tiles;
     }
 
-    public void ActivateImunity() {
+    public void ActivateImunity()
+    {
         if (RumLevel <= 0)
             return;
 
@@ -806,142 +924,51 @@ public class GameManager : MonoBehaviour {
         AudioManager.Instance.PlaySound("GlugSfx", 1.8f);
 
     }
-    void CheckNeighbours() {
-        int q = 0, r = 0;
-        int counter = 0;
-        foreach (var tileList in GameMap) {
-            foreach (var tile in tileList) {
-                int indexX;
 
-                if (r <= _curMapSize / 2)
-                    indexX = q - r;
-                else {
-                    indexX = q - r + counter;
-                }
-
-                int indexY = r - _curMapSize / 2;
-
-                //tile.name = string.Format("X: {0} Y: {1}", indexX, indexY);
-
-                var curTile = new Vector2(indexX, indexY);
-
-                foreach (var dir in _neighBours) {
-                    var neighbour = GetTile(curTile + dir);
-                    if (neighbour) {
-                        if (neighbour.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD)
-                            tile.GetComponent<GameTile>().BadNeighbours++;
-                    }
-                }
-                ++q;
-            }
-            ++r;
-
-            if (r > _curMapSize / 2)
-                ++counter;
-
-            q = 0;
-        }
-    }
-
-    GameObject GetTile(int q, int r) {
-
-        int indexX = r + _curMapSize / 2;
-        int indexY = q + _curMapSize / 2 + Mathf.Min(0, r);
-
-        if (indexX < GameMap.Count || indexY < GameMap[indexX].Count)
-            return GameMap[indexX][indexY];
-
-        return null;
-    }
-
-    GameObject GetTile(Vector2 pos) {
-        int indexX = (int)pos.y + _curMapSize / 2;
-        int indexY = (int)pos.x + _curMapSize / 2 + Mathf.Min(0, (int)pos.y);
-
-        if ((indexX < GameMap.Count && indexX >= 0) && (indexY < GameMap[indexX].Count && indexY >= 0))
-            return GameMap[indexX][indexY];
-
-        return null;
-    }
-
-    void LowerNeighbourDangerCounter() {
-        foreach (var dir in _neighBours) {
-            var neighbour = GetTile(_curPos + dir);
-            if (neighbour) {
-                --neighbour.GetComponent<GameTile>().BadNeighbours;
-            }
-        }
-    }
-
-    Vector2 RoundHex(float q, float r) {
-        //    function cube_round(h):
-        var cubeCoord = AxialToCubeCoord(q, r);
-
-        int rx = Mathf.RoundToInt(cubeCoord.x);
-        int ry = Mathf.RoundToInt(cubeCoord.y);
-        int rz = Mathf.RoundToInt(cubeCoord.z);
-
-        var x_diff = Mathf.Abs(rx - cubeCoord.x);
-        var y_diff = Mathf.Abs(ry - cubeCoord.y);
-        var z_diff = Mathf.Abs(rz - cubeCoord.z);
-
-        if (x_diff > y_diff && x_diff > z_diff)
-            rx = -ry - rz;
-        else if (y_diff > z_diff)
-            ry = -rx - rz;
-        else
-            rz = -rx - ry;
-
-        return CubetoAxialCoord(rx, ry, rz);
-    }
-
-    Vector3 AxialToCubeCoord(float q, float r) {
-        return new Vector3(q, -q - r, r);
-    }
-
-    Vector2 CubetoAxialCoord(float x, float y, float z) {
-        return new Vector2(x, z);
-    }
-
-    public void Quit() {
+    public void Quit()
+    {
         //if windows
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_WEBPLAYER || UNITY_WEBGL
-        Application.OpenURL("http://www.google.com");  //to be replaced with actual redirect site
 #else
         Application.Quit();
 #endif
     }
 
-    public void ToMain() {
+    public void ToMain()
+    {
         AudioManager.Instance.StopCurrentAmbientSfx();
 
         Application.LoadLevel(0);
     }
 
-    public void GameOver(bool isWin) {
+    public void GameOver(bool isWin)
+    {
 
-        if(!isWin)
+        if (!isWin)
             AudioManager.Instance.PlaySound("ShipBreakSfx");
         else
             AudioManager.Instance.PlaySound("Tada", 1.1f);
-        
+
         InGameMenu.GameOver(isWin, _timer);
-        for (int i = 0; i < transform.parent.childCount; i++) {
+        for (int i = 0; i < transform.parent.childCount; i++)
+        {
             Destroy(transform.parent.GetChild(i).gameObject);
         }
     }
 
-    public void SetSwiping(bool value) {
+    public void SetSwiping(bool value)
+    {
         EnableSwipe = value;
     }
 
-    public void SetTutorial(bool value) {
+    public void SetTutorial(bool value)
+    {
         ShowTutorial = value;
         PlayerPrefs.SetInt("Tutorial", value ? 1 : 0);
     }
-    public void SetTutorialInverse(bool value) {
+    public void SetTutorialInverse(bool value)
+    {
         ShowTutorial = !value;
         PlayerPrefs.SetInt("Tutorial", !value ? 1 : 0);
     }

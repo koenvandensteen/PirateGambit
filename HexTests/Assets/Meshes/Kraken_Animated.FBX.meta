@@ -1,0 +1,388 @@
+fileFormatVersion: 2
+guid: bada64f6c5a0d364e8d75789abed234a
+timeCreated: 1444498111
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: B_Root
+    100004: B_Tentacle_1-1
+    100006: B_Tentacle_1-2
+    100008: B_Tentacle_1-3
+    100010: B_Tentacle_1-4
+    100012: B_Tentacle_1-5
+    100014: B_Tentacle_1-6
+    100016: B_Tentacle_1-7
+    100018: B_Tentacle_2-1
+    100020: B_Tentacle_2-2
+    100022: B_Tentacle_2-3
+    100024: B_Tentacle_2-4
+    100026: B_Tentacle_2-5
+    100028: B_Tentacle_2-6
+    100030: B_Tentacle_2-7
+    100032: B_Tentacle_3-1
+    100034: B_Tentacle_3-2
+    100036: B_Tentacle_3-3
+    100038: B_Tentacle_3-4
+    100040: B_Tentacle_3-5
+    100042: B_Tentacle_3-6
+    100044: B_Tentacle_3-7
+    100046: B_Tentacle_4-1
+    100048: B_Tentacle_4-2
+    100050: B_Tentacle_4-3
+    100052: B_Tentacle_4-4
+    100054: B_Tentacle_4-5
+    100056: B_Tentacle_4-6
+    100058: B_Tentacle_4-7
+    100060: B_Tentacle_5-1
+    100062: B_Tentacle_5-2
+    100064: B_Tentacle_5-3
+    100066: B_Tentacle_5-4
+    100068: B_Tentacle_5-5
+    100070: B_Tentacle_5-6
+    100072: B_Tentacle_5-7
+    100074: IK_Tentacle_1
+    100076: IK_Tentacle_2
+    100078: IK_Tentacle_3
+    100080: IK_Tentacle_4
+    100082: IK_Tentacle_5
+    100084: Msh_Kraken
+    400000: //RootNode
+    400002: B_Root
+    400004: B_Tentacle_1-1
+    400006: B_Tentacle_1-2
+    400008: B_Tentacle_1-3
+    400010: B_Tentacle_1-4
+    400012: B_Tentacle_1-5
+    400014: B_Tentacle_1-6
+    400016: B_Tentacle_1-7
+    400018: B_Tentacle_2-1
+    400020: B_Tentacle_2-2
+    400022: B_Tentacle_2-3
+    400024: B_Tentacle_2-4
+    400026: B_Tentacle_2-5
+    400028: B_Tentacle_2-6
+    400030: B_Tentacle_2-7
+    400032: B_Tentacle_3-1
+    400034: B_Tentacle_3-2
+    400036: B_Tentacle_3-3
+    400038: B_Tentacle_3-4
+    400040: B_Tentacle_3-5
+    400042: B_Tentacle_3-6
+    400044: B_Tentacle_3-7
+    400046: B_Tentacle_4-1
+    400048: B_Tentacle_4-2
+    400050: B_Tentacle_4-3
+    400052: B_Tentacle_4-4
+    400054: B_Tentacle_4-5
+    400056: B_Tentacle_4-6
+    400058: B_Tentacle_4-7
+    400060: B_Tentacle_5-1
+    400062: B_Tentacle_5-2
+    400064: B_Tentacle_5-3
+    400066: B_Tentacle_5-4
+    400068: B_Tentacle_5-5
+    400070: B_Tentacle_5-6
+    400072: B_Tentacle_5-7
+    400074: IK_Tentacle_1
+    400076: IK_Tentacle_2
+    400078: IK_Tentacle_3
+    400080: IK_Tentacle_4
+    400082: IK_Tentacle_5
+    400084: Msh_Kraken
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Msh_Kraken
+    7400000: Idle
+    7400002: Attack
+    9500000: //RootNode
+    13700000: Msh_Kraken
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 13
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: B_Root
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4/B_Tentacle_1-5
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4/B_Tentacle_1-5/B_Tentacle_1-6
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4/B_Tentacle_1-5/B_Tentacle_1-6/B_Tentacle_1-7
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4/B_Tentacle_2-5
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4/B_Tentacle_2-5/B_Tentacle_2-6
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4/B_Tentacle_2-5/B_Tentacle_2-6/B_Tentacle_2-7
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4/B_Tentacle_3-5
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4/B_Tentacle_3-5/B_Tentacle_3-6
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4/B_Tentacle_3-5/B_Tentacle_3-6/B_Tentacle_3-7
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4/B_Tentacle_4-5
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4/B_Tentacle_4-5/B_Tentacle_4-6
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4/B_Tentacle_4-5/B_Tentacle_4-6/B_Tentacle_4-7
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4/B_Tentacle_5-5
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4/B_Tentacle_5-5/B_Tentacle_5-6
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4/B_Tentacle_5-5/B_Tentacle_5-6/B_Tentacle_5-7
+        weight: 1
+      - path: IK_Tentacle_1
+        weight: 1
+      - path: IK_Tentacle_2
+        weight: 1
+      - path: IK_Tentacle_3
+        weight: 1
+      - path: IK_Tentacle_4
+        weight: 1
+      - path: IK_Tentacle_5
+        weight: 1
+      - path: Msh_Kraken
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 12
+      lastFrame: 44
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: B_Root
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4/B_Tentacle_1-5
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4/B_Tentacle_1-5/B_Tentacle_1-6
+        weight: 1
+      - path: B_Root/B_Tentacle_1-1/B_Tentacle_1-2/B_Tentacle_1-3/B_Tentacle_1-4/B_Tentacle_1-5/B_Tentacle_1-6/B_Tentacle_1-7
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4/B_Tentacle_2-5
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4/B_Tentacle_2-5/B_Tentacle_2-6
+        weight: 1
+      - path: B_Root/B_Tentacle_2-1/B_Tentacle_2-2/B_Tentacle_2-3/B_Tentacle_2-4/B_Tentacle_2-5/B_Tentacle_2-6/B_Tentacle_2-7
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4/B_Tentacle_3-5
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4/B_Tentacle_3-5/B_Tentacle_3-6
+        weight: 1
+      - path: B_Root/B_Tentacle_3-1/B_Tentacle_3-2/B_Tentacle_3-3/B_Tentacle_3-4/B_Tentacle_3-5/B_Tentacle_3-6/B_Tentacle_3-7
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4/B_Tentacle_4-5
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4/B_Tentacle_4-5/B_Tentacle_4-6
+        weight: 1
+      - path: B_Root/B_Tentacle_4-1/B_Tentacle_4-2/B_Tentacle_4-3/B_Tentacle_4-4/B_Tentacle_4-5/B_Tentacle_4-6/B_Tentacle_4-7
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4/B_Tentacle_5-5
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4/B_Tentacle_5-5/B_Tentacle_5-6
+        weight: 1
+      - path: B_Root/B_Tentacle_5-1/B_Tentacle_5-2/B_Tentacle_5-3/B_Tentacle_5-4/B_Tentacle_5-5/B_Tentacle_5-6/B_Tentacle_5-7
+        weight: 1
+      - path: IK_Tentacle_1
+        weight: 1
+      - path: IK_Tentacle_2
+        weight: 1
+      - path: IK_Tentacle_3
+        weight: 1
+      - path: IK_Tentacle_4
+        weight: 1
+      - path: IK_Tentacle_5
+        weight: 1
+      - path: Msh_Kraken
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

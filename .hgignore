@@ -1,0 +1,24 @@
+syntax: glob
+.DS_Store
+*.suo
+*.sln
+*.userprefs
+*.csproj
+*.pidb
+*.orig
+*.unitypackage
+*.orig
+*.orig.meta
+*.log
+*.bin
+Build/**
+Library/**
+Temp/**
+obj/**
+CurrentLayout.dwlt
+
+syntax: regexp
+^Build$
+^Library$
+^Temp$
+^obj$

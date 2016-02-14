@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &167320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 412340}
+  - 114: {fileID: 11496086}
+  - 114: {fileID: 11490588}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &412340
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167320}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: .0700000003, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11490588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc32b5b44aa0a94e95f94ad33ece89c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BadObjectMat: {fileID: 0}
+  TreasureObjectMat: {fileID: 0}
+  ImuneObjectMat: {fileID: 0}
+  MapObjectMat: {fileID: 0}
+  FlareObjectMat: {fileID: 0}
+--- !u!114 &11496086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9828c99d31142414db6d1c41b78e7ecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  FreeIndexList: 
+  MapList: []
+  TileObject: {fileID: 107590, guid: 7f1b798c53c05444db18b37d1ab86349, type: 2}
+  MapSize: 11
+  TileSize: 1
+  IsPercentage: 0
+  BadTiles: 10
+  TreasureTiles: 10
+  MapTiles: 10
+  MapTilePower: 5
+  ImuneTiles: 10
+  FlareTiles: 10
+  TreasureObjects: []
+  EmptyObjects: []
+  BadObjects: []
+  ImuneObjects: []
+  FlareObjects: []
+  MapObjects: []
+  ShipStats:
+    MovementSpeed: .5
+    RotSlowDown: .100000001
+    MovSlowDown: .00999999978
+    RotationSpeed: 80
+    PlayerHeigth: -.200000003
+    RotateOffset: .100000001
+  PlayerShipObject: {fileID: 138444, guid: bd7cf74c3ff5e4d46ae9890dc9f52f5f, type: 2}
+  ScoreValue: 10
+  PlayerCurIndex: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 167320}
+  m_IsPrefabParent: 1

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<RepositoryCustomSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AutoRefresh>true</AutoRefresh>
+  <AutoRefreshRemotes>true</AutoRefreshRemotes>
+  <IncomingSavedCount>0</IncomingSavedCount>
+  <LastCheckedRemotes>2016-02-11T23:13:54.1975244+01:00</LastCheckedRemotes>
+  <LastUsedView>FileStatus</LastUsedView>
+  <LogBranchFilterIndex>0</LogBranchFilterIndex>
+  <OutgoingSavedCount>0</OutgoingSavedCount>
+  <RemoteProjectLinks>
+    <RepositoryRemoteProjectLink>
+      <BaseUrl>https://www.bitbucket.org</BaseUrl>
+      <Identifier>daestudents1516/game_project2_t3</Identifier>
+      <RemoteName>default</RemoteName>
+      <Type>Bitbucket</Type>
+      <Username>KoenVandenSteen</Username>
+    </RepositoryRemoteProjectLink>
+  </RemoteProjectLinks>
+  <SidebarExpandedItems>
+    <string>File Status</string>
+    <string>Branches</string>
+    <string>Remotes</string>
+  </SidebarExpandedItems>
+  <SidebarWidth>140</SidebarWidth>
+  <SubtreeLinks />
+</RepositoryCustomSettings>

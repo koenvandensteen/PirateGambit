@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <languageDefinition>Deutsch</languageDefinition>
+  <languageDefinition>English</languageDefinition>
+  <languageDefinition>Español</languageDefinition>
+  <languageDefinition>Français</languageDefinition>
+  <languageDefinition>Nederlands</languageDefinition>
+  <languageDefinition>West-Vloms</languageDefinition>
+  <languageDefinition>Português</languageDefinition>
+  <languageDefinition>Suomi</languageDefinition>
+  <dictionary>
+    <!--Title Menu-->
+    <Title>
+      <English>Pirate Gambit</English>
+      <Nederlands>Pirate Gambit</Nederlands>
+      <West-Vloms>Pirate Gambit</West-Vloms>
+      <Français>Pirate Gambit</Français>
+      <Deutsch>Pirate Gambit</Deutsch>
+      <Português>Pirate Gambit</Português>
+      <Español>Pirate Gambit</Español>
+      <Suomi>Pirate Gambit</Suomi>
+    </Title>
+    <Play>
+      <English>Play</English>
+      <Nederlands>Spelen</Nederlands>
+      <West-Vloms>Speeln</West-Vloms>
+      <Français>Joue</Français>
+      <Deutsch>Spielen</Deutsch>
+      <Português>Jogar</Português>
+      <Español>Jugar</Español>
+      <Suomi>Aloita</Suomi>
+    </Play>
+    <Settings>
+      <English>Settings</English>
+      <Nederlands>Instellingen</Nederlands>
+      <West-Vloms>Changementn</West-Vloms>
+      <Français>Paramètres</Français>
+      <Deutsch>Einstellungen</Deutsch>
+      <Português>Configurações</Português>
+      <Español>Ajustes</Español>
+      <Suomi>Asetukset</Suomi>
+    </Settings>   
+    <Quit>
+      <English>Quit</English>
+      <Nederlands>Afsluiten</Nederlands>
+      <West-Vloms>Oedjemulle</West-Vloms>
+      <Français>Fermer</Français>
+      <Deutsch>Verlassen</Deutsch>
+      <Português>Sair</Português>
+      <Español>Salir</Español>
+      <Suomi>Lopeta</Suomi>
+    </Quit>
+    <!--Play Menu-->
+    <StartGame>
+      <English>Play</English>
+      <Nederlands>Spelen</Nederlands>
+      <West-Vloms>Start eki vint</West-Vloms>
+      <Français>Joue</Français>
+      <Deutsch>Spielen</Deutsch>
+      <Português>Jogar</Português>
+      <Español>Jugar</Español>
+      <Suomi>Aloita</Suomi>
+    </StartGame>
+    <Easy>
+      <English>Easy</English>
+      <Nederlands>Gemakkelijk</Nederlands>
+      <West-Vloms>Tis vo me te lachn</West-Vloms>
+      <Français>Facile</Français>
+      <Deutsch>Leicht</Deutsch>
+      <Português>Fácil</Português>
+      <Español>Fácil</Español>
+      <Suomi>Helppo</Suomi>
+    </Easy>   
+    <Medium>
+      <English>Medium</English>
+      <Nederlands>Gemiddeld</Nederlands>
+      <West-Vloms>Cava</West-Vloms>
+      <Français>Moyenne</Français>
+      <Deutsch>Mittel</Deutsch>
+      <Português>Médio</Português>
+      <Español>Medio</Español>
+      <Suomi>Keskiverto</Suomi>
+    </Medium>    
+    <Hard>
+      <English>Hard</English>
+      <Nederlands>Moeilijk</Nederlands>
+      <West-Vloms>Godmiljaar</West-Vloms>
+      <Français>Difficile</Français>
+      <Deutsch>Schwierig</Deutsch>
+      <Português>Difícil</Português>
+      <Español>Difícil</Español>
+      <Suomi>Vaikea</Suomi>
+    </Hard>
+    <PlayAgain>
+    	<English>Play Again</English>
+    	<Nederlands>Opnieuw</Nederlands>
+    	<West-Vloms>nu gok chanse en</West-Vloms>
+    </PlayAgain>
+    <Win>
+    	<English>You Win!</English>
+    	<Nederlands>Gewonnen!</Nederlands>
+    	<West-Vloms>Gewon!</West-Vloms>
+    </Win>
+    <Lose>
+    	<English>Game Over!</English>
+    	<Nederlands>Gezonken!</Nederlands>
+    	<West-Vloms>Loser!</West-Vloms>
+    </Lose>
+    <!--Settings Menu-->
+    <MusicVolume>
+      <English>Music</English>
+      <Nederlands>Muziek</Nederlands>
+      <West-Vloms>Tjingeltjangel</West-Vloms>
+      <Français>Musique</Français>
+      <Deutsch>Volumen</Deutsch>
+      <Português>Volume</Português>
+      <Español>Musica</Español>
+      <Suomi>Volyymi</Suomi>
+    </MusicVolume>
+    <EffectVolume>
+      <English>Effects</English>
+      <Nederlands>Effecten</Nederlands>
+      <West-Vloms>Geruchte</West-Vloms>
+      <Français>Volume</Français>
+      <Deutsch>Volumen</Deutsch>
+      <Português>Volume</Português>
+      <Español>Efectos</Español>
+      <Suomi>Volyymi</Suomi>
+    </EffectVolume>
+    <Language>
+      <English>Language</English>
+      <Nederlands>Taal</Nederlands>
+      <West-Vloms>Wuk daj klapt</West-Vloms>
+      <Français>Langue</Français>
+      <Deutsch>Sprache</Deutsch>
+      <Português>Idioma </Português>
+      <Español>Idioma</Español>
+      <Suomi>Kieli</Suomi>
+    </Language>
+    <Tutorial>
+      <English>Show tutorial</English>
+      <Nederlands>Laat uitleg zien</Nederlands>
+      <West-Vloms>Utleg</West-Vloms>
+      <Français>Montre explication</Français>
+      <Deutsch>Zeigt anleitung</Deutsch>
+      <Português>Mostrar guia</Português>
+      <Español>Mostrar guía</Español>
+      <Suomi>Näytä tutoriaali</Suomi>
+    </Tutorial>
+    <Splashes>
+      <English>Splash screens</English>
+      <Nederlands>Splash screens</Nederlands>
+      <West-Vloms>Spetr schermn</West-Vloms>
+      <Français>Splash screens</Français>
+      <Deutsch>Splash screens</Deutsch>
+      <Português>Splash screens</Português>
+      <Español>Pantalla de introducción</Español>
+      <Suomi>Splash screens</Suomi>
+    </Splashes>
+    <Swiping>
+      <English>Swipe Mode</English>      
+      <Nederlands>Swipe Modus</Nederlands>
+      <West-Vloms>Vingern</West-Vloms>
+    </Swiping>
+    <!-- In game -->
+    <DisableTutorial>
+    	<English>Disable tutorial</English>
+    	<Nederlands>Deactiveer uitleg</Nederlands>
+      <West-Vloms>Stopt me klapn</West-Vloms>
+    </DisableTutorial>
+    <!-- Tutorials -->
+    <TutIntro>
+    	<English>Collect as much treasure as you can without sailing on a kraken tile.
+You can see the amount of surrounding krakens in the lower right corner.</English>
+		<Nederlands>Verzamel zoveel mogelijk schatten zonder over een kraken te varen.
+Je kan het aantal omliggende krakens zien op de wijzer rechtsonder.</Nederlands>
+    <West-Vloms>Pakt alle schatn mo voart ni in de oktopusn. Je zie beneedn oevele vandie beestn roend je zien.</West-Vloms>
+    </TutIntro>
+    <TutSwipeMove>
+    	<English>Swipe in a direction to sail.
+Tap a tile to place a marker.
+Mark potential kraken tiles as a guide through the ocean. 
+Your ship can not sail over markers.</English>
+		<Nederlands>Veeg in een richting om te varen.
+Tik op een tegel om een vlag te plaatsen.
+Markeer mogelijke krakens als een gids door de oceaan.
+Je schip kan niet over een vlag varen.</Nederlands>
+<West-Vloms>Sleep om e twooshn na te voarn. Tikt ip e pleksje om ne boeje te zetn. Doe boejn maken et makkelikr voj, medaj der ni perongeluk ku overvaarn.</West-Vloms>
+    </TutSwipeMove>
+    <TutClickMove>
+    	<English>Click a tile to sail to.
+Right click a tile to place a marker.
+Mark potential kraken tiles as a guide through the ocean. 
+Your ship can not sail over markers.</English>
+    	<Nederlands>Klik op een tegel om te varen.
+Rechtsklik op een tegel om een vlag te plaatsen. Markeer mogelijke krakens als een gids door de oceaan. Je schip kan niet over een vlag varen.</Nederlands>
+<West-Vloms>Tikt ip e pleksje om der na toe te voarn. Tikt ip e pleksje om ne boeje te zetn.
+Doe boejn maken et makkelikr voj, medaj der ni perongeluk ku overvaarn.</West-Vloms>
+	</TutClickMove>
+	<TutTreasure>
+		<English>Congratulations!
+You discovered a treasure.
+You can see the amount of treasure you collected and the total amount of treasures on the top.</English>
+		<Nederlands>Proficiat!
+Je hebt een schat ontdekt.
+Je kan het aantal gevonden en het totaal aantal schatten zien bovenaan het scherm.</Nederlands>
+<West-Vloms>Goej matj!
+Je ne schatkiste gevoen.
+Vanboovn kuj zien oeveel schatkistn daj al et en oevele daj nodig et.</West-Vloms>
+	</TutTreasure>
+	<TutKraken>
+		<English>Beware of the kraken tiles!
+You can see the amount of discovered krakens and the total amount on top.
+It might be a good idea to mark the tile with a marker.</English>
+		<Nederlands>Pas op voor krakens!
+Je kan het aantal ontdekte en het totaal aantal krakens zien bovenaan het scherm.
+Het is een goed idee om de kraken te markeren met een vlag.</Nederlands>
+<West-Vloms>Pastip vo de Kraken!
+Vanboovn kuj zien oeveel Krakens daj nog ni gevondn et. Ge kut er ne vlagge ip zetn vo tactisch te zin</West-Vloms>
+	</TutKraken>
+	<TutMap>
+		<English>You scouted a map tile.
+Sail over it to discover distant tiles marked on the map.</English>
+		<Nederlands>Je hebt een kaart ontdekt.
+Vaar over de kaart om verre plekken te ontdekken die op de kaart gemarkeerd staan.</Nederlands>
+<West-Vloms>Je ne karte gevoen.
+Aj e karte vind kuj verre plekn zien die ip de karte stoan.</West-Vloms>
+	</TutMap>	
+	<TutMapActivate>
+		<English>You read the map and discover some distant tiles.</English>
+		<Nederlands>Je bestudeerd de kaart en ontdekt afgelegen plekken.</Nederlands>
+    <West-Vloms>Ip de karte leezj wukke verre vakn wa beteekn.</West-Vloms>
+	</TutMapActivate>	
+	<TutPowderKeg>
+		<English>The gunpowder helps you fend of enemies that might be in neighbouring tiles. 
+Your scouts can easily see what resides on the tiles around you.</English>
+		<Nederlands>Het buskruit helpt je om vijanden af te weren.
+Je ontdekkers kunnen zo gemakkelijk zien wat er zich rond je bevind.</Nederlands>
+<West-Vloms>Et buskrut helptj om Krakens af te weern.
+Je schip knechtn kun makkelijk zien wuk da om je ligt.</West-Vloms>
+	</TutPowderKeg>
+	<TutImmunity>
+		<English>You scouted an immunity tile!
+Sail over it to pick up some potions that can help you to stay alive while sailing the vast ocean.</English>
+		<Nederlands>Je hebt een onschendbaarheid drankje ontdekt!
+Vaar er over om het te verzamelen, je kan dit later gebruiken om je overlevingskansen op de ocean en zijn gevaren te vergroten.</Nederlands>
+<West-Vloms>Jet e toverdrank gevoen!
+Voart er over om der te verzameln, Je kuz gebrukn wanneer daj wilt om vo een beurte veilig te zin.</West-Vloms>
+	</TutImmunity>
+	<TutImmunityActivate>
+		<English>Activate your shield by tapping a rum bottle in the lower left corner.
+Your shield lasts until you visit a tile you havent visited before.</English>
+		<Nederlands>Activeer je schild door op een fles te klikken in de linker onderhoek.
+Je schild blijft actief totdat je over een tegel gaat waar je nog niet bent over gevaren.</Nederlands>
+<West-Vloms>Klikt ip de pulle links vanoendrn om te zuupn en veilig te zin.
+De tovertruk bluft totdaj ip e vaksje voart dan nog ni ondekt et.</West-Vloms>
+	</TutImmunityActivate>
+  </dictionary>
+</localization>

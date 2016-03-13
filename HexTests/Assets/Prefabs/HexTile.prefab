@@ -42,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.615168, y: 32.73063, z: 85.604744}
+  m_LocalPosition: {x: 17.6151676, y: 32.730629, z: 85.604744}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 485386}
@@ -78,10 +78,8 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -125,9 +123,9 @@ MonoBehaviour:
   FlagObject: {fileID: 101650, guid: 5c99a0f975fa44f4b86733666393e835, type: 2}
   NamedColors:
   - Name: Danger
-    Color: {r: 0.8602941, g: 0.13916521, b: 0.13916521, a: 1}
+    Color: {r: .860294104, g: .139165208, b: .139165208, a: 1}
   - Name: Unknown
-    Color: {r: 1, g: 0.6827587, b: 0, a: 1}
+    Color: {r: 1, g: .682758689, b: 0, a: 1}
   Q: 0
   R: 0
   ThisType: 0

@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour {
 
         if (Vector3.Distance(transform.position, _targetPos) < 0.2) {
             IsMoving = false;
-            GameManager.ThisManager.CheckCurrentTile();
+            GameManager.Instance.CheckCurrentTile();
         }
 
     }

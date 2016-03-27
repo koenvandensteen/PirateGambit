@@ -32,9 +32,15 @@ public enum TutorialInfo
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get { return _instance; }
+        private set {}
+    }
 
+    //private PlayerController _playerController = PlayerController.Instance;
 
-    public static GameManager ThisManager;
     public static bool IsMobile = false;
 
     #region UI
@@ -78,10 +84,11 @@ public class GameManager : MonoBehaviour
 
     #region Current Krakens
     private int _curKrakenAmmount;
+
     public int CurKrakenAmmount
     {
         get { return _curKrakenAmmount; }
-        private set
+        set
         {
             _curKrakenAmmount = value;
             if (CurKrakenAmmountChangedImplementation != null)
@@ -161,7 +168,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerObject;
 
     private Transform _arrowTransform;
-    private GameTile _selectedTile;
+    public GameTile _selectedTile;
 
     public PlayerMove _curPlayer
     {
@@ -190,15 +197,15 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Input player Variables
-    private Vector2 _mouseStartPos;
-    private Vector2 _mouseEndPos;
+    private Vector2 _mouseStartPos = Vector2.zero;
+    private Vector2 _mouseEndPos = Vector2.zero;
 
     private float _rightClickCounter;
     public float TimeBetweenRightClick = 0.1f;
 
     public float MinSwipeLength = 20.0f;
     private bool _isSwiping = false;
-    private Vector2 _curPos;
+    public Vector2 _curPos;
 
     #endregion
 
@@ -259,12 +266,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (!ThisManager)
-        {
-            ThisManager = this;
-
-        }
-
+        _instance = gameObject.GetComponent<GameManager>();
         _rightClickCounter = TimeBetweenRightClick;
     }
 
@@ -300,7 +302,6 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        PlayerController.Instance.HelloWorld();
         State = GameState.Play;
         _timer = 0;
 
@@ -340,6 +341,13 @@ public class GameManager : MonoBehaviour
         GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ActivateTile();
 
         CollectedTreasureAmount = 0;
+
+        if(PlayerObject == null)
+            Debug.Log("player object is null");
+
+        if (GameMap.GetTile(_curPos) == null)
+            Debug.Log("get tile is null");
+
 
         _curPlayer = (Instantiate(PlayerObject, GameMap.GetTile(_curPos).transform.position, Quaternion.identity) as GameObject).GetComponent<PlayerMove>();
         _curPlayer.MovementSpeed = MovementSpeed;
@@ -443,18 +451,6 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                procesMouse();
-                if (_rightClickCounter <= 0)
-                {
-                    if (Input.GetMouseButtonDown(1))
-                    {
-                        ProcessRightMouseClick();
-                        _rightClickCounter = TimeBetweenRightClick;
-                    }
-                }
-            }
 
             if (!_curPlayer.IsMoving)
             {
@@ -462,117 +458,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //ShowObjects();
-        }
-    }
-
-    //void ShowObjects() {
-    //    foreach (var list in GameMap) {
-    //        foreach (var tile in list) {
-    //            tile.GetComponent<GameTile>().ShowObject();
-    //        }
-    //    }
-    //}
-
-    void ProcessRightMouseClick()
-    {
-
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        float delta = 0;
-        _plane.Raycast(ray, out delta);
-
-        var clickedPos = ray.origin + ray.direction * delta;
-        // GameObject.Instantiate(PlayerObject, clickedPos, Quaternion.identity);
-
-        float x = clickedPos.x * Mathf.Sqrt(3f) / 3f - (-clickedPos.z) / 3f;
-        float y = (-clickedPos.z) * 2f / 3f;
-
-        var tile = GameMap.GetClickedTile(new Vector2(x, y));
-
-
-        if (tile != null)
-        {
-            tile.GetComponent<GameTile>().CurrentTileStatus++;
-            if (!tile.GetComponent<GameTile>().IsHidden)
-                return;
-            if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.FLAGGED_DANGER)
-            {
-                ++CurKrakenAmmount;
-            }
-            else
-            {
-                --CurKrakenAmmount;
-            }
-        }
-
-    }
-
-    void procesMouse()
-    {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        float delta = 0;
-        _plane.Raycast(ray, out delta);
-
-        var clickedPos = ray.origin + ray.direction * delta;
-
-        Vector2 vectorDir = new Vector2((clickedPos.x - _curPlayer.transform.position.x), (clickedPos.z - _curPlayer.transform.position.z));
-
-        if (vectorDir.magnitude > 1 && vectorDir.magnitude < 2.5)
-        {
-            //_arrowTransform.gameObject.SetActive(true);
-            //_arrowTransform.rotation = Quaternion.Euler(0, GetSwipeAngle(), 0);
-
-            float angle = Mathf.Atan2(vectorDir.x, vectorDir.y) * 180 / Mathf.PI;
-            if (angle < 0)
-                angle += 360;
-
-            Vector2 moveOffset = GetMoveOffset(angle);
-            var tile = GameMap.GetTile(_curPos + moveOffset);
-
-
-            //_arrowTransform.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", new Color(255, 0, 0, 125));
-            if (tile)
-            {
-                if (_selectedTile)
-                {
-                    _selectedTile.Highlighted = false;
-                    _selectedTile = null;
-                }
-                if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
-                {
-                    _selectedTile = tile.GetComponent<GameTile>();
-                    _selectedTile.Highlighted = true;
-                    //_arrowTransform.GetComponentInChildren<Renderer>().material.SetColor("_TintColor", new Color(255, 255, 102, 125));
-                }
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                //_arrowTransform.gameObject.SetActive(false);
-                if (_selectedTile)
-                {
-                    _selectedTile.Highlighted = false;
-                    _selectedTile = null;
-                }
-
-                MovePlayer(vectorDir);
-                //_arrowTransform.position = GetTile(_curPos).transform.position;
-            }
-        }
-        else
-        {
-            if (_selectedTile)
-            {
-                _selectedTile.Highlighted = false;
-                _selectedTile = null;
-            }
-            _arrowTransform.gameObject.SetActive(false);
-        }
     }
 
     void ProcesSwipe()
@@ -585,7 +470,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ProcessRightMouseClick();
+            //ProcessRightMouseClick();
         }
     }
 

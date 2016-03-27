@@ -40,7 +40,7 @@ public class InGameMenu_Tutorial : MonoBehaviour {
             data = _queue.Dequeue();
             panelType = data.Type;
         } else {
-            GameManager.ThisManager.ResumeGame();
+            GameManager.Instance.ResumeGame();
             return;
         }
 
@@ -68,7 +68,7 @@ public class InGameMenu_Tutorial : MonoBehaviour {
 
         panel.SetActive(true);
         _isPanelOpen = true;
-        GameManager.ThisManager.PauseGame();
+        GameManager.Instance.PauseGame();
     }
 
     public void ClosePanel(string panelName) {
@@ -104,7 +104,7 @@ public class InGameMenu_Tutorial : MonoBehaviour {
             item.Panel.SetActive(false);
         }
 
-        GameManager.ThisManager.ShowTutorialScreenImplementationScreen += ActivateTutorial;
+        GameManager.Instance.ShowTutorialScreenImplementationScreen += ActivateTutorial;
     }
 
     void OnValidate() {

@@ -38,7 +38,7 @@ public class WildLifeManager : MonoBehaviour {
     private GameManager _thisManager;
 
     void Start() {
-        _thisManager = GameManager.ThisManager;
+        _thisManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -87,7 +87,7 @@ public class WildLifeManager : MonoBehaviour {
 
     private void SpawnWhaleEvent() {
         _spawnPos += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
-        var whale = Instantiate(Whale, _spawnPos, Quaternion.identity) as GameObject;
+        //var whale = Instantiate(Whale, _spawnPos, Quaternion.identity) as GameObject;
 
         //_curDolphinInterval = 0;
         _dolphinCount++;

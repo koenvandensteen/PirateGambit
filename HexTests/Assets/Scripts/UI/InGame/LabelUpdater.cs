@@ -15,10 +15,10 @@ public class LabelUpdater : MonoBehaviour {
     void Awake() {
         switch (TargetType) {
             case Target.Treasure:
-                GameManager.ThisManager.TreasureChangedImplementation += UpdateText;
+                GameManager.Instance.TreasureChangedImplementation += UpdateText;
                 break;
             case Target.Krakens:
-                GameManager.ThisManager.CurKrakenAmmountChangedImplementation += UpdateText;
+                GameManager.Instance.CurKrakenAmmountChangedImplementation += UpdateText;
                 break;
             default:
                 break;
@@ -32,10 +32,10 @@ public class LabelUpdater : MonoBehaviour {
 
         switch (TargetType) {
             case Target.Treasure:
-                max = GameManager.ThisManager.MaxTreasureAmmount;
+                max = GameManager.Instance.MaxTreasureAmmount;
                 break;
             case Target.Krakens:
-                max = GameManager.ThisManager.MaxKrakenAmmount;
+                max = GameManager.Instance.MaxKrakenAmmount;
                 break;
             default:
                 break;

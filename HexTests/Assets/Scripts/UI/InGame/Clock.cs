@@ -15,7 +15,7 @@ public class Clock : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float time = GameManager.ThisManager.GameTime;
+        float time = GameManager.Instance.GameTime;
 
         float angle = (Mathf.Floor(time) / 60.0f) * 360;
         SecondHand.rotation = Quaternion.Euler(0, 0, -angle);

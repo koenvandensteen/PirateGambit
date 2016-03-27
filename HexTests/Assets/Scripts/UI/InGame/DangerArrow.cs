@@ -7,7 +7,7 @@ public class DangerArrow : MonoBehaviour {
     public float MaxAngle;
 
     void Awake() {
-        GameManager.ThisManager.DangerLevelChangedImplementation += UpdateAngle;
+        GameManager.Instance.DangerLevelChangedImplementation += UpdateAngle;
     }
 
     void UpdateAngle(int value) {

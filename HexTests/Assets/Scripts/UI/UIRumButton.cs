@@ -10,7 +10,7 @@ public class UIRumButton : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        GameManager.ThisManager.RumlevelChangedImplementation += level => {
+        GameManager.Instance.RumlevelChangedImplementation += level => {
             //Debug.LogFormat("Immune Button: Rum level: {0}", level);
             if (level == 0) {
                 GetComponent<Button>().interactable = false;

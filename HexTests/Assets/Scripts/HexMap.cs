@@ -1,25 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 
-public class HexMap : MonoBehaviour {
+public class HexMap
+{
 
     
     private List<List<GameObject>> _hexMap = new List<List<GameObject>>();
     private int _curMapSize = 0;
 
     private readonly Vector2[] _neighBours = { new Vector2(+1, 0), new Vector2(0, +1), new Vector2(-1, +1), new Vector2(-1, 0), new Vector2(0, -1), new Vector2(+1, -1) };
-
-    // Use this for initialization
-    void Start () {
-    
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void AddRow(List<GameObject> row)
     {
@@ -122,13 +114,14 @@ public class HexMap : MonoBehaviour {
 
     public void ClearMap()
     {
-        foreach (var tileList in _hexMap)
-        {
-            foreach (var tile in tileList)
-            {
-                Destroy(tile);
-            }
-        }
+        _hexMap.Clear();
+        //foreach (var tileList in _hexMap)
+        //{
+        //    foreach (var tile in tileList)
+        //    {
+               
+        //    }
+        //}
     }
 
     private Vector2 RoundHex(Vector2 coordinate)

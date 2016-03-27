@@ -18,7 +18,7 @@ public class Immunity_Parent : MonoBehaviour {
         foreach (var item in children) {
             item.gameObject.SetActive(false);
         }
-        GameManager.ThisManager.RumlevelChangedImplementation += UpdateBottles;
+        GameManager.Instance.RumlevelChangedImplementation += UpdateBottles;
     }
 
 

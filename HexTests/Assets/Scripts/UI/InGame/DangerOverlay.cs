@@ -13,7 +13,7 @@ public class DangerOverlay : MonoBehaviour {
     private Color _baseColor;
 
     void Awake() {
-        GameManager.ThisManager.DangerLevelChangedImplementation += UpdateOverlay;
+        GameManager.Instance.DangerLevelChangedImplementation += UpdateOverlay;
         _baseColor = GetComponent<Image>().color;
     }
 

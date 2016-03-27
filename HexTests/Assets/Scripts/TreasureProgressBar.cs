@@ -23,7 +23,7 @@ public class TreasureProgressBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var manager = GameManager.ThisManager;
+        var manager = GameManager.Instance;
 
         if (_myImage != null) {
         _myImage.fillAmount = (float)manager.CollectedTreasureAmount / manager.MaxTreasureAmmount;

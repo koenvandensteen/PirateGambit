@@ -111,7 +111,7 @@ public class GameTile : MonoBehaviour {
             return;
 
         if (SceneManager.GetActiveScene().name == "HexMap")
-            --GameManager.ThisManager.HiddenTiles;
+            --GameManager.Instance.HiddenTiles;
 
         if (IsEmpty) {
             GetComponent<Renderer>().material.SetColor("_BorderColor", BorderColor);
@@ -127,7 +127,7 @@ public class GameTile : MonoBehaviour {
 
     public void ActivateTile() {
 
-        if (IsActivated || GameManager.ThisManager.State != GameState.Play)
+        if (IsActivated || GameManager.Instance.State != GameState.Play)
             return;
 
         IsActivated = true;

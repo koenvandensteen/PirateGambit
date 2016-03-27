@@ -11,12 +11,12 @@ public class Treasure : MonoBehaviour {
     public Mesh[] Meshes;
 
     void Awake() {
-        GameManager.ThisManager.TreasureChangedImplementation += UpdateCoins;
+        GameManager.Instance.TreasureChangedImplementation += UpdateCoins;
 
     }
 
     void UpdateCoins(int value) {
-        float percentage = ((float)value) / GameManager.ThisManager.MaxTreasureAmmount;
+        float percentage = ((float)value) / GameManager.Instance.MaxTreasureAmmount;
 
         int index = Mathf.FloorToInt(percentage * Meshes.Length);
 

@@ -17,6 +17,6 @@ public class CamFolowScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(GameManager.ThisManager.LookAtTarget.x,transform.position.y, GameManager.ThisManager.LookAtTarget.z), CamSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(GameManager.Instance.LookAtTarget.x,transform.position.y, GameManager.Instance.LookAtTarget.z), CamSpeed * Time.deltaTime);
     }
 }

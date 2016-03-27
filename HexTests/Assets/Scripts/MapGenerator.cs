@@ -213,7 +213,7 @@ public class MapGenerator : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "HexMap")
         {
-            GameManager.ThisManager.GetComponent<GameManager>().HiddenTileList = new List<Vector2>(hiddenTiles);
+            GameManager.Instance.HiddenTileList = new List<Vector2>(hiddenTiles);
         }
 
         for (int i = 0; i < differentTyleTypes; i++)
@@ -231,10 +231,10 @@ public class MapGenerator : MonoBehaviour
                     gameMap.GetRow((int)tileIndex.y)[(int)tileIndex.x].GetComponent<GameTile>().BorderColor = BorderColors[i + 1];
 
                     if (i == (int)GameTile.TileType.BAD - 1)
-                        ++GameManager.ThisManager.GetComponent<GameManager>().MaxKrakenAmmount;
+                        ++GameManager.Instance.MaxKrakenAmmount;
 
                     if (i == (int)GameTile.TileType.TREASURE - 1)
-                        ++GameManager.ThisManager.GetComponent<GameManager>().MaxTreasureAmmount;
+                        ++GameManager.Instance.MaxTreasureAmmount;
 
                     _emptyTileList.RemoveAt(randIndex);
                     _curTileAmmount[i]++;

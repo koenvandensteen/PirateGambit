@@ -20,7 +20,7 @@ public class Immunity_Child : MonoBehaviour {
 
     void OnMouseDown() {
 
-        GameManager.ThisManager.ActivateImunity();
+        GameManager.Instance.ActivateImunity();
         gameObject.SetActive(false);
     }
 }

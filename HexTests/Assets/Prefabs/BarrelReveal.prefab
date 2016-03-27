@@ -49,8 +49,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -85,8 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5123d2ccd8588b84d947712d7847c76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayTime: .349999994
-  ScaleDiff: 1.04999995
+  PlayTime: 0.35
+  ScaleDiff: 1.05
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

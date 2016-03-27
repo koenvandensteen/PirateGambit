@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
             {
                GameManager.Instance._curPlayer.SetMoveStart(moveTarget.transform.position);
                GameManager.Instance._curPos += hexDirection;
+               GameManager.Instance.CurDangerlevel = GameManager.Instance.GameMap.GetTile(GameManager.Instance._curPos).GetComponent<GameTile>().BadNeighbours;
             }
         }
     }

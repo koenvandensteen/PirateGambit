@@ -41,7 +41,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137518}
-  m_LocalRotation: {x: -.70710665, y: 0, z: 0, w: .707107008}
+  m_LocalRotation: {x: -0.70710665, y: 0, z: 0, w: 0.707107}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -54,7 +54,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183358}
-  m_LocalRotation: {x: .707106411, y: 0, z: 0, w: .707107186}
+  m_LocalRotation: {x: 0.7071064, y: 0, z: 0, w: 0.7071072}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -78,8 +78,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -102,9 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2bb2014b2dd1e41a255fce4ba4a76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color1: {r: 1, g: 1, b: 1, a: .501960814}
+  Color1: {r: 1, g: 1, b: 1, a: 0.5019608}
   Color2: {r: 1, g: 1, b: 1, a: 1}
-  FlashTime: .25
+  FlashTime: 0.25
 --- !u!114 &11453692
 MonoBehaviour:
   m_ObjectHideFlags: 1

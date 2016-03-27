@@ -371,6 +371,7 @@ public class GameManager : MonoBehaviour
 
         //Play the ambient sound effect
         AudioManager.Instance.PlayAmbientSfx("NewAmbienceSfx_00");
+        ActivateTileKeg();
     }
 
     // Update is called once per frame

@@ -23,7 +23,7 @@ public class Immunity_Parent : MonoBehaviour {
 
 
     void UpdateBottles(int value) {
-
+        
         int amount = Mathf.Min(value, children.Count);
 
         int activeObjects = 0;

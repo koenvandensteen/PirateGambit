@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class InGameMenu_Main : MonoBehaviour {
 
@@ -84,7 +85,7 @@ public class InGameMenu_Main : MonoBehaviour {
 
         AudioManager.Instance.StopCurrentAmbientSfx();
 
-        Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Reflection;
+using UnityEngine.SceneManagement;
 
 
 public class DifficultyStateObject : MonoBehaviour {
@@ -40,7 +41,7 @@ public class DifficultyStateObject : MonoBehaviour {
 
     public void SetDifficulty(int difficulty) {
         CurDifficultyState = (DifficultyState)difficulty;
-        Application.LoadLevel("HexMap");
+        SceneManager.LoadScene("HexMap");
     }
 
     static public string GetDifficultyName() {

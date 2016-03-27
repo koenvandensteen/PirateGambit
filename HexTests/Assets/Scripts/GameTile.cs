@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameTile : MonoBehaviour {
 
@@ -109,7 +110,7 @@ public class GameTile : MonoBehaviour {
         if (IsActivated || !IsHidden /* || GameManager.ThisManager.state != GameState.Play*/)
             return;
 
-        if (Application.loadedLevelName == "HexMap")
+        if (SceneManager.GetActiveScene().name == "HexMap")
             --GameManager.ThisManager.HiddenTiles;
 
         if (IsEmpty) {

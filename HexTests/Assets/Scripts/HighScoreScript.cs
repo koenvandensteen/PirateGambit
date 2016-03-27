@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Parse;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HighScoreScript : MonoBehaviour
@@ -68,7 +69,7 @@ public class HighScoreScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_updateList && _loadScore.IsCompleted && Application.loadedLevelName.Equals("MainMenu"))
+        if (_updateList && _loadScore.IsCompleted && SceneManager.GetActiveScene().name.Equals("MainMenu"))
         {
             PrintList();
             _updateList = false;
@@ -105,7 +106,7 @@ public class HighScoreScript : MonoBehaviour
 
     public void ShowHighScores()
     {
-        if (Application.loadedLevelName.Equals("MainMenu"))
+        if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
         {
             LoadTop10("Easy");
             MainMenuCanvas.GetComponent<Canvas>().enabled = false;
@@ -219,7 +220,7 @@ public class HighScoreScript : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        if (Application.loadedLevelName.Equals("MainMenu"))
+        if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
         {
             GetComponentInChildren<Canvas>().enabled = false;
             MainMenuCanvas.GetComponent<Canvas>().enabled = true;

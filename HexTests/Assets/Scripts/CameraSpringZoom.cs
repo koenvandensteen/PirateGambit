@@ -22,7 +22,7 @@ public class CameraSpringZoom : MonoBehaviour
 
     public float CamOffsetAmmount = 1;
     public float CamAngleOffsetSpeed = 1f;
-    private float _camAngleOffset = 5f;
+    //private float _camAngleOffset = 5f;
     public float CameraMoveSpeed = 10f;
     private float _prevMagnitude = 0f;
     private float _zoomFactor = 0;

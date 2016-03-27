@@ -17,7 +17,7 @@ public class InGameMenu_HighscoreManager : MonoBehaviour {
 
     private GameObject _input;
     private float _score;
-    private int _rank;
+    //private int _rank;
 
     void Awake() {
         if (Container == null) {

@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public enum GameState
@@ -184,6 +185,7 @@ public class GameManager : MonoBehaviour
     private int _curMapSize;
     public int HexRadius = 1;
     public int MapTilePower = 5;
+
     public int HiddenTiles { get; set; }
     #endregion
 
@@ -298,6 +300,7 @@ public class GameManager : MonoBehaviour
 
     public void StartNewGame()
     {
+        PlayerController.Instance.HelloWorld();
         State = GameState.Play;
         _timer = 0;
 
@@ -939,7 +942,7 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.StopCurrentAmbientSfx();
 
-        Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 
     public void GameOver(bool isWin)

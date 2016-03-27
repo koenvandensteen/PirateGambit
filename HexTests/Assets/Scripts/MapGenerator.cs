@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -210,7 +211,7 @@ public class MapGenerator : MonoBehaviour
             maxTileAmmount[i] += Random.Range(0, VariableRandOffset);
         }
 
-        if (Application.loadedLevelName == "HexMap")
+        if (SceneManager.GetActiveScene().name == "HexMap")
         {
             GameManager.ThisManager.GetComponent<GameManager>().HiddenTileList = new List<Vector2>(hiddenTiles);
         }

@@ -33,7 +33,7 @@ public class WildLifeManager : MonoBehaviour {
 
     public float DolphinSpawnInterval = 1.0f;
 
-    private float _curDolphinInterval = 0f;
+    //private float _curDolphinInterval = 0f;
     private int _dolphinCount = 0;
     private GameManager _thisManager;
 
@@ -89,7 +89,7 @@ public class WildLifeManager : MonoBehaviour {
         _spawnPos += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
         var whale = Instantiate(Whale, _spawnPos, Quaternion.identity) as GameObject;
 
-        _curDolphinInterval = 0;
+        //_curDolphinInterval = 0;
         _dolphinCount++;
 
         _curEvent = RandomEvent.Idle;

@@ -17,10 +17,10 @@ public class DolphinMove : MonoBehaviour
     public float RotateSpeed;
 
     private float _curAngle;
-    private bool _switchDir = false;
+    //private bool _switchDir = false;
 
-    private float lowestVal = 0;
-    private float highestVal = 0;
+    //private float lowestVal = 0;
+    //private float highestVal = 0;
     // Use this for initialization
     void Start()
     {

@@ -38,42 +38,66 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+<<<<<<< HEAD
           name: _MetallicGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
+=======
           name: _ParallaxMap
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
+<<<<<<< HEAD
+          name: _ParallaxMap
+=======
           name: _OcclusionMap
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
+<<<<<<< HEAD
+          name: _OcclusionMap
+=======
           name: _EmissionMap
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
+<<<<<<< HEAD
+          name: _EmissionMap
+=======
           name: _DetailMask
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
+<<<<<<< HEAD
+          name: _DetailMask
+=======
           name: _DetailAlbedoMap
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+<<<<<<< HEAD
+          name: _DetailAlbedoMap
+=======
+          name: _MetallicGlossMap
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -93,10 +117,13 @@ Material:
         second: 0.5
       data:
         first:
+<<<<<<< HEAD
           name: _ZWrite
         second: 1
       data:
         first:
+=======
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
           name: _Glossiness
         second: 0.5
       data:
@@ -105,12 +132,25 @@ Material:
         second: 0
       data:
         first:
+<<<<<<< HEAD
           name: _BumpScale
         second: 1
       data:
         first:
           name: _Parallax
         second: 0.02
+=======
+          name: _Parallax
+        second: 0.02
+      data:
+        first:
+          name: _ZWrite
+        second: 1
+      data:
+        first:
+          name: _BumpScale
+        second: 1
+>>>>>>> 37820f5452cd6f26e58ed341f7e8620894b982ef
       data:
         first:
           name: _OcclusionStrength

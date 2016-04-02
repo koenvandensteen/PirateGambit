@@ -3726,7 +3726,7 @@ Prefab:
       objectReference: {fileID: 763047238}
     - target: {fileID: 466496, guid: 897483f125dd38b438b0499ae7c96c84, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -186.2551
+      value: -195.37314
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 897483f125dd38b438b0499ae7c96c84, type: 2}
@@ -18076,9 +18076,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1822575501}
-  - 114: {fileID: 1822575500}
   - 114: {fileID: 1822575502}
   - 114: {fileID: 1822575503}
+  - 114: {fileID: 1822575500}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -18116,10 +18116,7 @@ MonoBehaviour:
   MapTilePower: 5
   TimeBetweenRightClick: 0.1
   MinSwipeLength: 5
-  _curPos: {x: 0, y: 0}
   MaxRumStack: 3
-  RotationSpeed: 360
-  MovementSpeed: 5
   HasMoved: 0
   CameraFollowSpeed: 50
   CameraOffset: {x: 0, y: -3}
@@ -18173,8 +18170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f073d05086eeb8348a27882376eb34f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SwipeMoveTreshold: 1
+  SwipeMoveTreshold: 50
   TimeBetweenRightClick: 0.1
+  RotationSpeed: 360
+  MovementSpeed: 5
+  PlayerObject: {fileID: 118814, guid: 17efe0c706c3a7c4692cb222432d4f6b, type: 2}
 --- !u!1 &1827165489
 GameObject:
   m_ObjectHideFlags: 0

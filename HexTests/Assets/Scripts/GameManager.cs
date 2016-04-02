@@ -36,8 +36,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance
     {
         get { return _instance; }
-        private set {}
+        private set { }
     }
+
 
     //private PlayerController _playerController = PlayerController.Instance;
 
@@ -45,6 +46,9 @@ public class GameManager : MonoBehaviour
 
     #region UI
 
+
+    private PlayerController _playerController;
+    private Player _player;
     public GameObject GameCamera;
     public InGameMenu_Main InGameMenu;
 
@@ -170,11 +174,6 @@ public class GameManager : MonoBehaviour
     private Transform _arrowTransform;
     public GameTile _selectedTile;
 
-    public PlayerMove _curPlayer
-    {
-        get; private set;
-    }
-
     public HexMap GameMap;
 
     public Vector3 LookAtTarget { get; set; }
@@ -205,7 +204,7 @@ public class GameManager : MonoBehaviour
 
     public float MinSwipeLength = 20.0f;
     private bool _isSwiping = false;
-    public Vector2 _curPos;
+ 
 
     #endregion
 
@@ -221,14 +220,13 @@ public class GameManager : MonoBehaviour
         private set
         {
             _isImune = value;
-            _curPlayer.Shield.SetActive(value);
+            PlayerController.Instance.PlayerRef.Shield.SetActive(value);
         }
     }
 
     public int MaxRumStack = 3;
 
-    public float RotationSpeed;
-    public float MovementSpeed;
+
     private bool _isFirstTurn = true;
     public bool HasMoved = false;
     #endregion
@@ -281,11 +279,12 @@ public class GameManager : MonoBehaviour
 #endif
 
         State = GameState.Play;
-        StartNewGame();
+        
 
         _arrowTransform = transform.FindChild("Arrow");
         _arrowTransform.gameObject.SetActive(false);
 
+        StartNewGame();
     }
 
     public void PauseGame()
@@ -305,17 +304,12 @@ public class GameManager : MonoBehaviour
         State = GameState.Play;
         _timer = 0;
 
-        if (_curPlayer != null)
-        {
-            Destroy(_curPlayer.gameObject);
-        }
 
         if (GameMap != null)
         {
             GameMap.ClearMap();
         }
 
-        _curPos = new Vector2(0, 0);
         CurDangerlevel = 0;
         if (_mapGenerator == null)
             _mapGenerator = GetComponent<MapGenerator>();
@@ -336,25 +330,10 @@ public class GameManager : MonoBehaviour
         GameMap = _mapGenerator.CreateHexMap(_curMapSize, HexRadius);
         GameMap.CheckNeighbours();
 
-
         GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ThisType = GameTile.TileType.EMPTY;
         GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ActivateTile();
 
         CollectedTreasureAmount = 0;
-
-        if(PlayerObject == null)
-            Debug.Log("player object is null");
-
-        if (GameMap.GetTile(_curPos) == null)
-            Debug.Log("get tile is null");
-
-
-        _curPlayer = (Instantiate(PlayerObject, GameMap.GetTile(_curPos).transform.position, Quaternion.identity) as GameObject).GetComponent<PlayerMove>();
-        _curPlayer.MovementSpeed = MovementSpeed;
-        _curPlayer.RotationSpeed = RotationSpeed;
-        _curPlayer.IsDead = false;
-
-        GameCamera.GetComponent<CameraSpringZoom>().PlayerTransform = _curPlayer.transform;
 
         _isFirstTurn = true;
         EnableSwipe = PlayerPrefs.GetInt("Swiping") == 0 ? false : true;
@@ -371,109 +350,102 @@ public class GameManager : MonoBehaviour
 
         //Play the ambient sound effect
         AudioManager.Instance.PlayAmbientSfx("NewAmbienceSfx_00");
+       
+
+        _playerController = PlayerController.Instance;
+        _playerController.StartGame();
+        _player = _playerController.PlayerRef;
+        _player.ArrivedOnHex += CheckCurrentTile;
         ActivateTileKeg();
     }
+
+
+
 
     // Update is called once per frame
     void Update()
     {
-        if (State != GameState.Play || _curPlayer.IsDead)
-            return; //don't update swipe gestures when in menu, use UI Onclick.
+
+
+        if (State != GameState.Play || _player.IsDead)
+            return;
 
         //Update timer for score
         _timer += Time.deltaTime;
 
-        if (_rightClickCounter > 0)
-        {
-            _rightClickCounter -= Time.deltaTime;
-        }
+        //if (!_player.IsMoving)
+        //{
+        //    if (IsMobile || EnableSwipe)
+        //    {
+        //        //Start swipe
 
-        if (!_curPlayer.IsMoving)
-        {
-            if (IsMobile || EnableSwipe)
-            {
-                //Start swipe
+        //        if (Input.touchCount >= 2)
+        //        {
+        //            _isSwiping = false;
+        //            return;
+        //        }
 
-                if (Input.touchCount >= 2)
-                {
-                    _isSwiping = false;
-                    return;
-                }
+        //        if (Input.GetMouseButtonDown(0) && Input.touchCount < 2)
+        //        {
+        //            _isSwiping = true;
+        //            _mouseStartPos = Input.mousePosition;
+        //        }
+        //        //During swipe
+        //        if (_isSwiping)
+        //        {
+        //            Vector2 moveOffset = GetMoveOffset((float)GetSwipeAngle());
+        //            var tile = GameMap.GetTile(_playerController.PlayerPosition + moveOffset);
 
-                if (Input.GetMouseButtonDown(0) && Input.touchCount < 2)
-                {
-                    _isSwiping = true;
-                    _mouseStartPos = Input.mousePosition;
-                }
-                //During swipe
-                if (_isSwiping)
-                {
-                    Vector2 moveOffset = GetMoveOffset((float)GetSwipeAngle());
-                    var tile = GameMap.GetTile(_curPos + moveOffset);
+        //            if (tile)
+        //            {
+        //                if (_selectedTile)
+        //                {
+        //                    _selectedTile.Highlighted = false;
+        //                    _selectedTile = null;
+        //                }
+        //                if (((Vector3)_mouseStartPos - Input.mousePosition).magnitude > MinSwipeLength)
+        //                {
+        //                    SwipeVisualization.DoShow = true;
+        //                    _selectedTile = tile.GetComponent<GameTile>();
+        //                    _selectedTile.Highlighted = true;
+        //                }
+        //                else
+        //                {
+        //                    SwipeVisualization.DoShow = false;
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (_selectedTile)
+        //            {
+        //                _selectedTile.Highlighted = false;
+        //                _selectedTile = null;
+        //            }
+        //        }
 
-                    if (tile)
-                    {
-                        if (_selectedTile)
-                        {
-                            _selectedTile.Highlighted = false;
-                            _selectedTile = null;
-                        }
-                        if (((Vector3)_mouseStartPos - Input.mousePosition).magnitude > MinSwipeLength)
-                        {
-                            SwipeVisualization.DoShow = true;
-                            _selectedTile = tile.GetComponent<GameTile>();
-                            _selectedTile.Highlighted = true;
-                        }
-                        else
-                        {
-                            SwipeVisualization.DoShow = false;
-                        }
-                    }
-                }
-                else
-                {
-                    if (_selectedTile)
-                    {
-                        _selectedTile.Highlighted = false;
-                        _selectedTile = null;
-                    }
-                }
+        //        //End swipe
+        //        if (Input.GetMouseButtonUp(0) && _isSwiping && !_player.IsMoving)
+        //        {
+        //            _isSwiping = false;
+        //            _mouseEndPos = Input.mousePosition;
+        //            ProcesSwipe();
+        //            if (_selectedTile)
+        //            {
+        //                _selectedTile.Highlighted = false;
+        //                _selectedTile = null;
+        //            }
+        //        }
+        //    }
 
-                //End swipe
-                if (Input.GetMouseButtonUp(0) && _isSwiping && !_curPlayer.IsMoving)
-                {
-                    _isSwiping = false;
-                    _mouseEndPos = Input.mousePosition;
-                    ProcesSwipe();
-                    if (_selectedTile)
-                    {
-                        _selectedTile.Highlighted = false;
-                        _selectedTile = null;
-                    }
-                }
-            }
-
-            if (!_curPlayer.IsMoving)
-            {
-                CheckCurrentTile();
-            }
-        }
+        //    if (!_player.IsMoving)
+        //    {
+        //        CheckCurrentTile();
+        //    }
+        //}
 
     }
 
-    void ProcesSwipe()
-    {
-        Vector2 vectorDir = _mouseEndPos - _mouseStartPos;
-
-        if (vectorDir.magnitude > MinSwipeLength)
-        {
-            MovePlayer(vectorDir);
-        }
-        else
-        {
-            //ProcessRightMouseClick();
-        }
-    }
 
     Vector2 GetMoveOffset(float angle)
     {
@@ -503,37 +475,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void MovePlayer(Vector2 direction)
-    {
-        float angle = Mathf.Atan2(direction.x, direction.y) * 180 / Mathf.PI;
-        if (angle < 0)
-            angle += 360;
-
-        Vector2 moveOffset = GetMoveOffset(angle);
-
-        var tile = GameMap.GetTile(_curPos + moveOffset);
-
-        if (tile)
-        {
-            //Check if the status is CLEAR (no flag placed on the tile)
-            if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
-            {
-                if (_isFirstTurn && tile.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD)
-                {
-
-                }
-                else
-                {
-                    tile.GetComponent<GameTile>().ShowObject();
-                }
-
-                _curPlayer.SetMoveStart(tile.transform.position);
-                _curPos += moveOffset;
-                CurDangerlevel = GameMap.GetTile(_curPos).GetComponent<GameTile>().BadNeighbours;
-            }
-        }
-    }
-
     int GetSwipeAngle()
     {
         Vector2 curMousePos = Input.mousePosition;
@@ -549,7 +490,7 @@ public class GameManager : MonoBehaviour
 
             var clickedPos = ray.origin + ray.direction * delta;
 
-            vectorDir = new Vector2((clickedPos.x - _curPlayer.transform.position.x), (clickedPos.z - _curPlayer.transform.position.z));
+            vectorDir = new Vector2((clickedPos.x - _player.transform.position.x), (clickedPos.z - _player.transform.position.z));
         }
 
         float angle = Mathf.Atan2(vectorDir.x, vectorDir.y) * 180 / Mathf.PI;
@@ -564,7 +505,7 @@ public class GameManager : MonoBehaviour
     public void CheckCurrentTile()
     {
 
-        var curTile = GameMap.GetTile(_curPos).GetComponent<GameTile>();
+        var curTile = GameMap.GetTile(_playerController.PlayerPosition).GetComponent<GameTile>();
 
         if (curTile.IsActivated)
             return;
@@ -574,7 +515,7 @@ public class GameManager : MonoBehaviour
         //Set child rotation to match player
         for (int i = 0; i < curTile.transform.childCount; i++)
         {
-            curTile.transform.GetChild(i).transform.rotation = _curPlayer.transform.rotation * Quaternion.Euler(0, 180, 0);
+            curTile.transform.GetChild(i).transform.rotation = _player.transform.rotation * Quaternion.Euler(0, 180, 0);
         }
 
         switch (curTile.ThisType)
@@ -602,28 +543,15 @@ public class GameManager : MonoBehaviour
                 if (_arrowTransform)
                     _arrowTransform.gameObject.SetActive(false);
 
-                if (!IsImune && !_isFirstTurn)
+                if (!IsImune)
                 {
-
                     curTile.ActivateTile();
                     GameOver(false);
                     Destroy(gameObject);
-
                 }
-                else if (_isFirstTurn)
+                else
                 {
-                    curTile.GetComponent<GameTile>().BorderColor = GetComponent<MapGenerator>().BorderColors[0];
-                    curTile.GetComponent<GameTile>().ThisType = GameTile.TileType.EMPTY;
-                    curTile.GetComponent<GameTile>().IsEmpty = true;
-
-                    curTile.GetComponent<GameTile>().ActivateTile();
-                    HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
-                    --MaxKrakenAmmount;
-                    GameMap.LowerNeighbourDangerCounter(_curPos);
-                }
-                else if (_isImune)
-                {
-                    GameMap.LowerNeighbourDangerCounter(_curPos);
+                    GameMap.LowerNeighbourDangerCounter(_playerController.PlayerPosition);
                     curTile.ActivateTile();
                     HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
                     Destroy(curTile.GetComponent<GameTile>().HiddenObject);
@@ -779,7 +707,7 @@ public class GameManager : MonoBehaviour
     {
         List<GameObject> tiles = new List<GameObject>();
 
-        foreach (var neighbour in GameMap.GetNeighBours(_curPos))
+        foreach (var neighbour in GameMap.GetNeighBours(_playerController.PlayerPosition))
         {
             if (neighbour)
             {

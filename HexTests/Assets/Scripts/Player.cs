@@ -2,11 +2,15 @@
 //Copyright (c) 2016 Koen Van Den Steen (http://koenvds.com), Thomas Van Riel (http://www.thomasvanriel.com)
 //All Rights Reserved
 //----------------------------------------------------------------------------------------------------------
+
+using System;
 using UnityEngine;
 using System.Collections;
 
-public class PlayerMove : MonoBehaviour {
+public class Player : MonoBehaviour {
 
+    public delegate void Arrived();
+    public event Arrived ArrivedOnHex;
 
     public bool IsMoving = false;
     public bool IsDead = false;
@@ -44,7 +48,7 @@ public class PlayerMove : MonoBehaviour {
 
         if (Vector3.Distance(transform.position, _targetPos) < 0.2) {
             IsMoving = false;
-            GameManager.Instance.CheckCurrentTile();
+            ArrivedOnHex();
         }
 
     }

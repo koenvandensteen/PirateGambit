@@ -40,10 +40,10 @@ public class CameraSpringZoom : MonoBehaviour
     {
         _camTransform = GetComponentInChildren<Camera>().transform;
 
-        if (GameManager.IsMobile)
-        {
-            ZoomSpeed /= 3f;
-        }
+        //if (GameManager.IsMobile)
+        //{
+        //    ZoomSpeed /= 3f;
+        //}
 
 
         if (DifficultyStateObject.CurDifficultyState == DifficultyStateObject.DifficultyState.Easy)
@@ -67,10 +67,10 @@ public class CameraSpringZoom : MonoBehaviour
     {
         _maxZoomedInPosition = PlayerTransform.position + new Vector3(0, 3.2f, -2.2f);
         _camTransform.position = Vector3.Lerp(_startPosition, _maxZoomedInPosition, _zoomFactor);
-        
-        if (GameManager.IsMobile)
-        {
-            if (Input.touchCount < 2)
+
+#if UNITY_ANDROID || UNITY_IOS
+
+        if (Input.touchCount < 2)
                 return;
 
             var deltaVec = Input.touches[0].position - Input.touches[1].position;
@@ -90,10 +90,8 @@ public class CameraSpringZoom : MonoBehaviour
             }
 
             _prevMagnitude = deltaVec.magnitude;
-        }
-        else
-        {
-            float zoom = Input.GetAxis("Zoom");
+#else
+        float zoom = Input.GetAxis("Zoom");
 
             if (zoom > 0)
             {
@@ -103,7 +101,8 @@ public class CameraSpringZoom : MonoBehaviour
             {
                 ZoomOut();
             }
-        }
+#endif
+
     }
 
     void ZoomIn()

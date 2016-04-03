@@ -64,10 +64,12 @@ public class CamFollowZoomScript : MonoBehaviour {
                 transform.position = Target.position;
 
                 float zoom = Input.GetAxis("Zoom");
-                if (GameManager.IsMobile)
-                {
-                    zoom = ProcessZoom();
-                }
+
+#if UNITY_IOS || UNITY_ANDROID
+
+                zoom = ProcessZoom();
+#endif
+
                 _zoomFactor += zoom;
                 _zoomFactor = Mathf.Clamp(_zoomFactor, 0.0f, TargetZoom);
 

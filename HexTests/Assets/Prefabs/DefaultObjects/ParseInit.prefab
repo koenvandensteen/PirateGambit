@@ -36,7 +36,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 762677091, guid: 9e99708821a612d4dba9abad7cfe9241, type: 3}
   m_Name: 
@@ -54,14 +54,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3642c42672b0348b4f511354b46c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuMain: {fileID: 0}
 --- !u!114 &11489878
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d194c7e5deb3d4449bd4753e02bbc79e, type: 3}
   m_Name: 
@@ -72,7 +71,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 137236}

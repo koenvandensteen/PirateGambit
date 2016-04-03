@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     //private PlayerController _playerController = PlayerController.Instance;
 
-    public static bool IsMobile = false;
+
 
     #region UI
 
@@ -195,19 +195,6 @@ public class GameManager : MonoBehaviour
     public int HiddenTiles { get; set; }
     #endregion
 
-    #region Input player Variables
-    private Vector2 _mouseStartPos = Vector2.zero;
-    private Vector2 _mouseEndPos = Vector2.zero;
-
-    private float _rightClickCounter;
-    public float TimeBetweenRightClick = 0.1f;
-
-    public float MinSwipeLength = 20.0f;
-    private bool _isSwiping = false;
- 
-
-    #endregion
-
 
     #region Player Variables
     private bool _isImune = false;
@@ -226,8 +213,7 @@ public class GameManager : MonoBehaviour
 
     public int MaxRumStack = 3;
 
-
-    private bool _isFirstTurn = true;
+    
     public bool HasMoved = false;
     #endregion
 
@@ -265,7 +251,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         _instance = gameObject.GetComponent<GameManager>();
-        _rightClickCounter = TimeBetweenRightClick;
     }
 
     //private HighScoreScript _highScoreManager; 
@@ -273,11 +258,6 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-#if UNITY_ANDROID || UNITY_IOS
-        IsMobile = true;
-#endif
-
         State = GameState.Play;
         
 
@@ -334,10 +314,10 @@ public class GameManager : MonoBehaviour
         GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ActivateTile();
 
         CollectedTreasureAmount = 0;
-
-        _isFirstTurn = true;
+        
         EnableSwipe = PlayerPrefs.GetInt("Swiping") == 0 ? false : true;
         ShowTutorial = PlayerPrefs.GetInt("Tutorial") == 0 ? false : true;
+
         RumLevel = 0;
         CurKrakenAmmount = 0;
 
@@ -373,134 +353,10 @@ public class GameManager : MonoBehaviour
         //Update timer for score
         _timer += Time.deltaTime;
 
-        //if (!_player.IsMoving)
-        //{
-        //    if (IsMobile || EnableSwipe)
-        //    {
-        //        //Start swipe
-
-        //        if (Input.touchCount >= 2)
-        //        {
-        //            _isSwiping = false;
-        //            return;
-        //        }
-
-        //        if (Input.GetMouseButtonDown(0) && Input.touchCount < 2)
-        //        {
-        //            _isSwiping = true;
-        //            _mouseStartPos = Input.mousePosition;
-        //        }
-        //        //During swipe
-        //        if (_isSwiping)
-        //        {
-        //            Vector2 moveOffset = GetMoveOffset((float)GetSwipeAngle());
-        //            var tile = GameMap.GetTile(_playerController.PlayerPosition + moveOffset);
-
-        //            if (tile)
-        //            {
-        //                if (_selectedTile)
-        //                {
-        //                    _selectedTile.Highlighted = false;
-        //                    _selectedTile = null;
-        //                }
-        //                if (((Vector3)_mouseStartPos - Input.mousePosition).magnitude > MinSwipeLength)
-        //                {
-        //                    SwipeVisualization.DoShow = true;
-        //                    _selectedTile = tile.GetComponent<GameTile>();
-        //                    _selectedTile.Highlighted = true;
-        //                }
-        //                else
-        //                {
-        //                    SwipeVisualization.DoShow = false;
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (_selectedTile)
-        //            {
-        //                _selectedTile.Highlighted = false;
-        //                _selectedTile = null;
-        //            }
-        //        }
-
-        //        //End swipe
-        //        if (Input.GetMouseButtonUp(0) && _isSwiping && !_player.IsMoving)
-        //        {
-        //            _isSwiping = false;
-        //            _mouseEndPos = Input.mousePosition;
-        //            ProcesSwipe();
-        //            if (_selectedTile)
-        //            {
-        //                _selectedTile.Highlighted = false;
-        //                _selectedTile = null;
-        //            }
-        //        }
-        //    }
-
-        //    if (!_player.IsMoving)
-        //    {
-        //        CheckCurrentTile();
-        //    }
-        //}
-
     }
 
 
-    Vector2 GetMoveOffset(float angle)
-    {
-        if (angle > 0 && angle < 60) //Move Right Up
-        {
-            return new Vector2(+1, -1);
-        }
-        else if (angle > 60 && angle < 120) //move right
-        {
-            return new Vector2(+1, 0);
-        }
-        else if (angle > 120 && angle < 180) //move right down
-        {
-            return new Vector2(0, +1);
-        }
-        else if (angle > 180 && angle < 240) //move left down
-        {
-            return new Vector2(-1, +1);
-        }
-        else if (angle > 240 && angle < 300) //move left
-        {
-            return new Vector2(-1, 0);
-        }
-        else //move left up
-        {
-            return new Vector2(0, -1);
-        }
-    }
 
-    int GetSwipeAngle()
-    {
-        Vector2 curMousePos = Input.mousePosition;
-        Vector2 vectorDir = curMousePos - _mouseStartPos;
-
-        if (!IsMobile && !EnableSwipe)
-        {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Plane plane = new Plane(Vector3.up, Vector3.zero);
-
-            float delta = 0;
-            plane.Raycast(ray, out delta);
-
-            var clickedPos = ray.origin + ray.direction * delta;
-
-            vectorDir = new Vector2((clickedPos.x - _player.transform.position.x), (clickedPos.z - _player.transform.position.z));
-        }
-
-        float angle = Mathf.Atan2(vectorDir.x, vectorDir.y) * 180 / Mathf.PI;
-        if (angle < 0)
-            angle += 360;
-
-        int lockedAngle = Mathf.FloorToInt(angle * (6.0f / 360.0f)) * 60 + 30;
-
-        return lockedAngle;
-    }
 
     public void CheckCurrentTile()
     {
@@ -641,7 +497,6 @@ public class GameManager : MonoBehaviour
         }
 
         IsImune = false;
-        _isFirstTurn = false;
 
         switch (curTile.GetComponent<GameTile>().ThisType)
         {

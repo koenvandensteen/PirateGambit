@@ -163,17 +163,10 @@ public class GameManager : MonoBehaviour
     public delegate void ShowTutorialScreen(TutorialData info);
     public ShowTutorialScreen ShowTutorialScreenImplementationScreen;
 
-    public GameObject PlayerObject;
-
     private Transform _arrowTransform;
-    public GameTile _selectedTile;
 
     public HexMap GameMap;
 
-    public Vector3 LookAtTarget { get; set; }
-
-    public bool IsNewPosition = false;
-    public GameObject SelectedTile;
 
     #region mapVariables
     private MapGenerator _mapGenerator;
@@ -207,17 +200,8 @@ public class GameManager : MonoBehaviour
 
     public int MaxRumStack = 3;
 
-
-    public bool HasMoved = false;
+    
     #endregion
-
-    #region Camera Variables
-    public float CameraFollowSpeed;
-    public Vector2 CameraOffset;
-
-    #endregion
-    Plane _plane = new Plane(Vector3.up, Vector3.zero);
-
 
     public SwipeManager SwipeVisualization;
     private bool _swipingEnabled = false;

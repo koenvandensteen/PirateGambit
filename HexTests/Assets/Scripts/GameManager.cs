@@ -39,13 +39,7 @@ public class GameManager : MonoBehaviour
         private set { }
     }
 
-
-    //private PlayerController _playerController = PlayerController.Instance;
-
-
-
     #region UI
-
 
     private PlayerController _playerController;
     private Player _player;
@@ -260,7 +254,6 @@ public class GameManager : MonoBehaviour
     {
         State = GameState.Play;
         
-
         _arrowTransform = transform.FindChild("Arrow");
         _arrowTransform.gameObject.SetActive(false);
 
@@ -336,16 +329,13 @@ public class GameManager : MonoBehaviour
         _playerController.StartGame();
         _player = _playerController.PlayerRef;
         _player.ArrivedOnHex += CheckCurrentTile;
-        ActivateTileKeg();
+        ActivateTileKeg(null);
     }
-
-
 
 
     // Update is called once per frame
     void Update()
     {
-
 
         if (State != GameState.Play || _player.IsDead)
             return;
@@ -357,7 +347,6 @@ public class GameManager : MonoBehaviour
 
 
 
-
     public void CheckCurrentTile()
     {
 
@@ -365,8 +354,7 @@ public class GameManager : MonoBehaviour
 
         if (curTile.IsActivated)
             return;
-
-        //curTile.ShowObject();
+        curTile.ActivateTile();
 
         //Set child rotation to match player
         for (int i = 0; i < curTile.transform.childCount; i++)
@@ -376,122 +364,30 @@ public class GameManager : MonoBehaviour
 
         switch (curTile.ThisType)
         {
-            case GameTile.TileType.EMPTY:
-                curTile.ActivateTile();
+            case GameTile.TileType.EMPTY:            
                 HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
                 break;
 
             case GameTile.TileType.TREASURE:
-                curTile.ActivateTile();
-                HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
-                AudioManager.Instance.PlaySound("coinSfx", 1.2f);
-                ++CollectedTreasureAmount;
-
-                if (TreasureParticles != null)
-                {
-                    var ps = Instantiate(TreasureParticles, curTile.transform.position, Quaternion.Euler(-90, 0, 0)) as ParticleSystem;
-                    ps.Play();
-                    Destroy(ps, 2.0f);
-                }
+                ActivateTreasureTile(curTile);
                 break;
 
             case GameTile.TileType.BAD:
-                if (_arrowTransform)
-                    _arrowTransform.gameObject.SetActive(false);
-
-                if (!IsImune)
-                {
-                    curTile.ActivateTile();
-                    GameOver(false);
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    GameMap.LowerNeighbourDangerCounter(_playerController.PlayerPosition);
-                    curTile.ActivateTile();
-                    HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
-                    Destroy(curTile.GetComponent<GameTile>().HiddenObject);
-                    AudioManager.Instance.PlaySound("KrakenDiesSfx");
-                    ++CurKrakenAmmount;
-                }
+                ActivateBadTile(curTile);
                 break;
 
             case GameTile.TileType.MAP:
-                {
-                    curTile.ActivateTile();
-                    HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
-                    AudioManager.Instance.PlaySound("ShieldGongSfx", 0.6f);
-
-                    var list = new List<GameObject>();
-                    list = ActivateTileMap();
-
-                    ShowTutorialInfo(TutorialInfo.MapActivate, list);
-                    _tutorialIsShown[(int)TutorialInfo.Map] = true;
-
-                    foreach (var tile in list)
-                    {
-                        tile.GetComponent<GameTile>().ShowEmphasis(3.0f);
-
-                        switch (tile.GetComponent<GameTile>().ThisType)
-                        {
-                            case GameTile.TileType.MAP:
-                                if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
-                                    ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { tile.gameObject });
-                                break;
-                            case GameTile.TileType.IMUNE:
-                                if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
-                                    ShowTutorialInfo(TutorialInfo.Immunity, new List<GameObject>() { tile.gameObject });
-                                break;
-                            default:
-                                ShowTutorialInfo((TutorialInfo)tile.GetComponent<GameTile>().ThisType + 1, new List<GameObject>() { tile.gameObject });
-                                break;
-                        }
-
-                    }
-                }
+                ActivateTileMap(curTile);
                 break;
 
             case GameTile.TileType.POWDERKEG:
-                {
-                    curTile.ActivateTile();
-                    HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
-                    var list = ActivateTileKeg();
-                    ShowTutorialInfo(TutorialInfo.Powderkeg, list);
-                    foreach (var tile in list)
-                    {
-                        tile.GetComponent<GameTile>().ShowEmphasis(3.0f);
-
-                        switch (tile.GetComponent<GameTile>().ThisType)
-                        {
-                            case GameTile.TileType.MAP:
-                                if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
-                                    ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { tile.gameObject });
-                                break;
-                            case GameTile.TileType.IMUNE:
-                                if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
-                                    ShowTutorialInfo(TutorialInfo.Immunity, new List<GameObject>() { tile.gameObject });
-                                break;
-                            default:
-                                ShowTutorialInfo((TutorialInfo)tile.GetComponent<GameTile>().ThisType + 1, new List<GameObject>() { tile.gameObject });
-                                break;
-                        }
-
-                    }
-
-                    AudioManager.Instance.PlaySound("ExplosionSfx", 0.35f);
-                }
+                ActivateTileKeg(curTile);
                 break;
+
             case GameTile.TileType.IMUNE:
-                curTile.ActivateTile();
-                HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
-                AudioManager.Instance.PlaySound("GlassClink", 1.0f);
-                if (RumLevel <= MaxRumStack)
-                    RumLevel++;
-
-                ShowTutorialInfo(TutorialInfo.ImmunityActivate, null);
-                _tutorialIsShown[(int)TutorialInfo.Immunity] = true;
-
+                ActivateImuneTile(curTile);
                 break;
+
             default:
                 break;
         }
@@ -515,6 +411,40 @@ public class GameManager : MonoBehaviour
 
     }
 
+    void ActivateTreasureTile(GameTile curTile)
+    {
+        HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
+        AudioManager.Instance.PlaySound("coinSfx", 1.2f);
+        ++CollectedTreasureAmount;
+
+        if (TreasureParticles != null)
+        {
+            var ps = Instantiate(TreasureParticles, curTile.transform.position, Quaternion.Euler(-90, 0, 0)) as ParticleSystem;
+            ps.Play();
+            Destroy(ps, 2.0f);
+        }
+    }
+
+    void ActivateBadTile(GameTile curTile)
+    {
+        if (_arrowTransform)
+            _arrowTransform.gameObject.SetActive(false);
+
+        if (!IsImune)
+        {
+            GameOver(false);
+            Destroy(gameObject);
+        }
+        else
+        {
+            GameMap.LowerNeighbourDangerCounter(_playerController.PlayerPosition);
+            HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
+            Destroy(curTile.GetComponent<GameTile>().HiddenObject);
+            AudioManager.Instance.PlaySound("KrakenDiesSfx");
+            ++CurKrakenAmmount;
+        }
+    }
+
     void ShowTutorialInfo(TutorialInfo tutInfo, List<GameObject> gameObjects)
     {
         if (ShowTutorial)
@@ -532,14 +462,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    List<GameObject> ActivateTileMap()
+    void ActivateTileMap(GameTile curTile)
     {
+        if(curTile)
+        {
+            HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
+        }
+
+        AudioManager.Instance.PlaySound("ShieldGongSfx", 0.6f);
         List<GameObject> tiles = new List<GameObject>(MapTilePower);
 
         for (int i = 0; i < MapTilePower; ++i)
         {
             if (HiddenTileList.Count <= 0)
-                return tiles;
+                return;
 
             int randomIndex = Random.Range(0, HiddenTileList.Count);
             var tileCoords = HiddenTileList[randomIndex];
@@ -549,17 +485,39 @@ public class GameManager : MonoBehaviour
             {
                 tiles.Add(tile);
                 tile.GetComponent<GameTile>().ShowObject();
+                tile.GetComponent<GameTile>().ShowEmphasis(3.0f);
+                switch (tile.GetComponent<GameTile>().ThisType)
+                {
+                    case GameTile.TileType.MAP:
+                        if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
+                            ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { tile.gameObject });
+                        break;
+                    case GameTile.TileType.IMUNE:
+                        if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
+                            ShowTutorialInfo(TutorialInfo.Immunity, new List<GameObject>() { tile.gameObject });
+                        break;
+                    default:
+                        ShowTutorialInfo((TutorialInfo)tile.GetComponent<GameTile>().ThisType + 1, new List<GameObject>() { tile.gameObject });
+                        break;
+                }
+
                 if (tile.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD && tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
                     ++CurKrakenAmmount;
                 HiddenTileList.RemoveAt(randomIndex);
             }
 
         }
-        return tiles;
+
+        ShowTutorialInfo(TutorialInfo.MapActivate, tiles);
+        _tutorialIsShown[(int)TutorialInfo.Map] = true;
     }
 
-    List<GameObject> ActivateTileKeg()
+    void ActivateTileKeg(GameTile curTile)
     {
+        if (curTile)
+        {
+            HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
+        }
         List<GameObject> tiles = new List<GameObject>();
 
         foreach (var neighbour in GameMap.GetNeighBours(_playerController.PlayerPosition))
@@ -580,10 +538,43 @@ public class GameManager : MonoBehaviour
                 }
 
                 neighbour.GetComponent<GameTile>().ShowObject();
+                neighbour.GetComponent<GameTile>().ShowEmphasis(3.0f);
+
+                switch (neighbour.GetComponent<GameTile>().ThisType)
+                {
+                    case GameTile.TileType.MAP:
+                        if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
+                            ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                    case GameTile.TileType.IMUNE:
+                        if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
+                            ShowTutorialInfo(TutorialInfo.Immunity, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                    default:
+                        ShowTutorialInfo((TutorialInfo)neighbour.GetComponent<GameTile>().ThisType + 1, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                }
+
                 HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(neighbour.GetComponent<GameTile>().Q, neighbour.GetComponent<GameTile>().R)));
             }
         }
-        return tiles;
+
+
+        ShowTutorialInfo(TutorialInfo.Powderkeg, tiles);
+
+        AudioManager.Instance.PlaySound("ExplosionSfx", 0.35f);
+
+    }
+
+    void ActivateImuneTile(GameTile curTile)
+    {
+        HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
+        AudioManager.Instance.PlaySound("GlassClink", 1.0f);
+        if (RumLevel <= MaxRumStack)
+            RumLevel++;
+
+        ShowTutorialInfo(TutorialInfo.ImmunityActivate, null);
+        _tutorialIsShown[(int)TutorialInfo.Immunity] = true;
     }
 
     public void ActivateImunity()

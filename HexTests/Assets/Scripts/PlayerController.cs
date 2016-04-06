@@ -99,12 +99,15 @@ public class PlayerController : MonoBehaviour
             _highlightedTile = null;
         }
 
+        if (_player.IsMoving)
+            return;
+        
 #if UNITY_IOS || UNITY_ANDROID
 
         ////
         /// Mobile Only
         /// 
-   
+
         if (Input.touchCount == 1)
         {
             if (!_isSwiping)
@@ -157,7 +160,7 @@ public class PlayerController : MonoBehaviour
         ///
         /// Desktop only
         /// 
-        
+
         if (_enableSwipe)
         {
             if (Input.GetMouseButtonDown(0))
@@ -172,6 +175,7 @@ public class PlayerController : MonoBehaviour
             if (_isSwiping)
             {
                 Vector3 curTouchPos = Input.mousePosition;
+
                 if (Vector3.Distance(curTouchPos, _startSwipePos) > SwipeMoveTreshold)
                 {
                     Vector2 moveOffset = GetHexDirection(curTouchPos - _startSwipePos);
@@ -182,56 +186,66 @@ public class PlayerController : MonoBehaviour
                         _highlightedTile = moveTarget.GetComponent<GameTile>();
                         _highlightedTile.Highlighted = true;
                     }
-                }
 
+
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        _endSwipePos = curTouchPos;
+                        if (_highlightedTile)
+                        {
+                            _highlightedTile.Highlighted = false;
+                            _highlightedTile = null;
+                        }
+                        EndSwipe();
+                        _isSwiping = false;
+                    }
+                }
                 if (Input.GetMouseButtonUp(0))
                 {
-                    _endSwipePos = curTouchPos;
                     if (_highlightedTile)
                     {
                         _highlightedTile.Highlighted = false;
                         _highlightedTile = null;
                     }
-                    EndSwipe();
                     _isSwiping = false;
+                }
+
+            }
+            else
+            {
+                if (!_player.IsMoving)
+                {
+                    ProccesMouse();
                 }
             }
 
-        }
-        else
-        {
-            if (!_player.IsMoving)
+            if (_rightClickCounter <= 0)
             {
-                ProccesMouse();
+                if (Input.GetMouseButtonDown(1))
+                {
+                    ProcessRightMouseClick();
+                    _rightClickCounter = TimeBetweenRightClick;
+                }
             }
-        }
 
-        if (_rightClickCounter <= 0)
-        {
-            if (Input.GetMouseButtonDown(1))
+            if (_rightClickCounter > 0)
             {
-                ProcessRightMouseClick();
-                _rightClickCounter = TimeBetweenRightClick;
+                _rightClickCounter -= Time.deltaTime;
             }
-        }
-
-        if (_rightClickCounter > 0)
-        {
-            _rightClickCounter -= Time.deltaTime;
-        }
 #endif
+        }
     }
 
     private void EndSwipe()
     {
-      var hexDirection = GetHexDirection(_endSwipePos - _startSwipePos);
-      var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + hexDirection);
-      if (moveTarget)
-      {
-          _player.SetMoveStart(moveTarget.transform.position);
-          _playerPosition += hexDirection;
-          GameManager.Instance.CurDangerlevel = GameManager.Instance.GameMap.GetTile(_playerPosition).GetComponent<GameTile>().BadNeighbours;
-      }  
+        var hexDirection = GetHexDirection(_endSwipePos - _startSwipePos);
+        var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + hexDirection);
+        if (moveTarget)
+        {
+            _player.SetMoveStart(moveTarget.transform.position);
+            _playerPosition += hexDirection;
+            GameManager.Instance.CurDangerlevel = GameManager.Instance.GameMap.GetTile(_playerPosition).GetComponent<GameTile>().BadNeighbours;
+        }
     }
 
     private void ProcessMobileClick()
@@ -269,13 +283,10 @@ public class PlayerController : MonoBehaviour
             Vector2 moveOffset = GetHexDirection(vectorDir);
             var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + moveOffset);
 
-            if (moveTarget)
+            if (moveTarget && moveTarget.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
             {
-                if (moveTarget.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
-                {
-                    _highlightedTile = moveTarget.GetComponent<GameTile>();
-                    _highlightedTile.Highlighted = true;
-                }
+                _highlightedTile = moveTarget.GetComponent<GameTile>();
+                _highlightedTile.Highlighted = true;
 
                 if (Input.GetMouseButtonUp(0))
                 {

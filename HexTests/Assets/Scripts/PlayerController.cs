@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public float SwipeMoveTreshold = 1f;
+
+    private IGameManager _gameManager;
 
     private bool _isSwiping = false;
     private Vector3 _startSwipePos;
@@ -35,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public float TimeBetweenRightClick = 0.1f;
     private float _rightClickCounter = 0;
 
-
+    public GameObject GameCamera;
 
     #region Player Variables
     public float RotationSpeed;
@@ -75,18 +78,28 @@ public class PlayerController : MonoBehaviour
 
     public void StartGame()
     {
+        if (_gameManager == null && SceneManager.GetActiveScene().name.Equals("NormalMode"))
+        {
+            _gameManager = GameManager.Instance;
+        }
+
+        if (_gameManager == null && SceneManager.GetActiveScene().name.Equals("TutorialMode"))
+        {
+            _gameManager = TutorialManager.Instance;
+        }
+
         if (_player != null)
         {
             Destroy(_player.gameObject);
         }
 
-        _player = (Instantiate(PlayerObject, GameManager.Instance.GameMap.GetTile(Vector2.zero).transform.position, Quaternion.identity) as GameObject).GetComponent<Player>();
+
+        _player = (Instantiate(PlayerObject, _gameManager.GameMap.GetTile(Vector2.zero).transform.position, Quaternion.identity) as GameObject).GetComponent<Player>();
         _player.MovementSpeed = MovementSpeed;
         _player.RotationSpeed = RotationSpeed;
         _player.IsDead = false;
 
-        GameManager.Instance.GameCamera.GetComponent<CameraSpringZoom>().PlayerTransform = _player.transform;
-
+        GameCamera.GetComponent<CameraSpringZoom>().PlayerTransform = _player.transform;
         _enableSwipe = PlayerPrefs.GetInt("Swiping") == 0 ? false : true;
     }
 
@@ -99,7 +112,7 @@ public class PlayerController : MonoBehaviour
             _highlightedTile = null;
         }
 
-        if (_player.IsMoving)
+        if (_player.IsMoving || _gameManager.GameState != GameState.Play)
             return;
 
 #if UNITY_IOS || UNITY_ANDROID
@@ -125,7 +138,7 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.Distance(_endSwipePos, _startSwipePos) > SwipeMoveTreshold)
                 {
                     Vector2 moveOffset = GetHexDirection(_endSwipePos - _startSwipePos);
-                    var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + moveOffset);
+                    var moveTarget = _gameManager.GameMap.GetTile(_playerPosition + moveOffset);
 
                     if (moveTarget && moveTarget.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
                     {
@@ -144,7 +157,13 @@ public class PlayerController : MonoBehaviour
 
                 if (Vector3.Distance(_endSwipePos, _startSwipePos) > SwipeMoveTreshold)
                 {
-                    EndSwipe();
+                    Vector2 moveOffset = GetHexDirection(_endSwipePos - _startSwipePos);
+                    var moveTarget = _gameManager.GameMap.GetTile(_playerPosition + moveOffset);
+
+                    if (moveTarget && moveTarget.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
+                    {
+                        EndSwipe(moveTarget, moveOffset);
+                    }
                 }
                 else
                 {
@@ -179,27 +198,27 @@ public class PlayerController : MonoBehaviour
                 if (Vector3.Distance(curTouchPos, _startSwipePos) > SwipeMoveTreshold)
                 {
                     Vector2 moveOffset = GetHexDirection(curTouchPos - _startSwipePos);
-                    var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + moveOffset);
+                    var moveTarget = _gameManager.GameMap.GetTile(_playerPosition + moveOffset);
 
                     if (moveTarget && moveTarget.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
                     {
                         _highlightedTile = moveTarget.GetComponent<GameTile>();
                         _highlightedTile.Highlighted = true;
-                    }
 
-
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        _endSwipePos = curTouchPos;
-                        if (_highlightedTile)
+                        if (Input.GetMouseButtonUp(0))
                         {
-                            _highlightedTile.Highlighted = false;
-                            _highlightedTile = null;
+                            _endSwipePos = curTouchPos;
+                            if (_highlightedTile)
+                            {
+                                _highlightedTile.Highlighted = false;
+                                _highlightedTile = null;
+                            }
+                            EndSwipe(moveTarget, moveOffset);
+                            _isSwiping = false;
                         }
-                        EndSwipe();
-                        _isSwiping = false;
                     }
                 }
+
                 if (Input.GetMouseButtonUp(0))
                 {
                     if (_highlightedTile)
@@ -236,16 +255,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void EndSwipe()
+    private void EndSwipe(GameObject moveTarget, Vector2 hexDirection)
     {
-        var hexDirection = GetHexDirection(_endSwipePos - _startSwipePos);
-        var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + hexDirection);
-        if (moveTarget)
-        {
-            _player.SetMoveStart(moveTarget.transform.position);
-            _playerPosition += hexDirection;
-            GameManager.Instance.CurDangerlevel = GameManager.Instance.GameMap.GetTile(_playerPosition).GetComponent<GameTile>().BadNeighbours;
-        }
+        if (moveTarget.GetComponent<GameTile>().IsHidden)
+            moveTarget.GetComponent<GameTile>().ShowObject();
+        _player.SetMoveStart(moveTarget.transform.position);
+        _playerPosition += hexDirection;
     }
 
     private void ProcessMobileClick()
@@ -255,7 +270,7 @@ public class PlayerController : MonoBehaviour
         float x = clickedPos.x * Mathf.Sqrt(3f) / 3f - (-clickedPos.z) / 3f;
         float y = (-clickedPos.z) * 2f / 3f;
 
-        var tile = GameManager.Instance.GameMap.GetClickedTile(new Vector2(x, y));
+        var tile = _gameManager.GameMap.GetClickedTile(new Vector2(x, y));
 
         if (tile != null)
         {
@@ -264,11 +279,11 @@ public class PlayerController : MonoBehaviour
                 return;
             if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.FLAGGED_DANGER)
             {
-                ++GameManager.Instance.CurKrakenAmmount;
+                ++_gameManager.CurKrakenAmmount;
             }
             else
             {
-                --GameManager.Instance.CurKrakenAmmount;
+                --_gameManager.CurKrakenAmmount;
             }
         }
     }
@@ -281,7 +296,7 @@ public class PlayerController : MonoBehaviour
         if (vectorDir.magnitude > 1 && vectorDir.magnitude < 2.5)
         {
             Vector2 moveOffset = GetHexDirection(vectorDir);
-            var moveTarget = GameManager.Instance.GameMap.GetTile(_playerPosition + moveOffset);
+            var moveTarget = _gameManager.GameMap.GetTile(_playerPosition + moveOffset);
 
             if (moveTarget && moveTarget.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
             {
@@ -314,7 +329,7 @@ public class PlayerController : MonoBehaviour
         float x = clickedPos.x * Mathf.Sqrt(3f) / 3f - (-clickedPos.z) / 3f;
         float y = (-clickedPos.z) * 2f / 3f;
 
-        var tile = GameManager.Instance.GameMap.GetClickedTile(new Vector2(x, y));
+        var tile = _gameManager.GameMap.GetClickedTile(new Vector2(x, y));
 
         if (tile != null)
         {
@@ -323,11 +338,11 @@ public class PlayerController : MonoBehaviour
                 return;
             if (tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.FLAGGED_DANGER)
             {
-                ++GameManager.Instance.CurKrakenAmmount;
+                ++_gameManager.CurKrakenAmmount;
             }
             else
             {
-                --GameManager.Instance.CurKrakenAmmount;
+                --_gameManager.CurKrakenAmmount;
             }
         }
     }

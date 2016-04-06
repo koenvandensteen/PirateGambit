@@ -104,7 +104,7 @@ public class InGameMenu_Tutorial : MonoBehaviour {
             item.Panel.SetActive(false);
         }
 
-        GameManager.Instance.ShowTutorialScreenImplementationScreen += ActivateTutorial;
+        TutorialManager.Instance.ShowTutorialScreenImplementationScreen += ActivateTutorial;
     }
 
     void OnValidate() {

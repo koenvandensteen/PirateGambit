@@ -127,7 +127,7 @@ public class GameTile : MonoBehaviour {
 
     public void ActivateTile() {
 
-        if (IsActivated || GameManager.Instance.State != GameState.Play)
+        if (IsActivated)
             return;
 
         IsActivated = true;

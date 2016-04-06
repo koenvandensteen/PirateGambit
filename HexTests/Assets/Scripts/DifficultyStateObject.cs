@@ -41,7 +41,7 @@ public class DifficultyStateObject : MonoBehaviour {
 
     public void SetDifficulty(int difficulty) {
         CurDifficultyState = (DifficultyState)difficulty;
-        SceneManager.LoadScene("HexMap");
+        SceneManager.LoadScene("NormalMode");
     }
 
     static public string GetDifficultyName() {

@@ -10,16 +10,26 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public enum GameState
+
+public enum TutorialInfo
 {
-    Pause,
-    Play,
+    Intro,
+    FirstMove,
+    Treasure,
+    Kraken,
+    Map,
+    Powderkeg,
+    Immunity,
+    ImmunityActivate,
+    MapActivate,
+    PowderkegActivate,
+    Count,
 }
 
-public class GameManager : MonoBehaviour , IGameManager
+public class TutorialManager : MonoBehaviour , IGameManager
 {
-    private static GameManager _instance;
-    public static GameManager Instance
+    private static TutorialManager _instance;
+    public static TutorialManager Instance
     {
         get { return _instance; }
         private set { }
@@ -143,13 +153,18 @@ public class GameManager : MonoBehaviour , IGameManager
 
     #endregion
 
+    public bool ShowTutorial = true;
+    private bool[] _tutorialIsShown = new bool[(int)TutorialInfo.Count];
+    public delegate void ShowTutorialScreen(TutorialData info);
+    public ShowTutorialScreen ShowTutorialScreenImplementationScreen;
+
     private Transform _arrowTransform;
 
     public HexMap GameMap { get; set; }
 
 
     #region mapVariables
-    private MapGenerator _mapGenerator;
+    private TutorialGenerator _mapGenerator;
 
 
     public int EasyMapSize = 7;
@@ -209,8 +224,7 @@ public class GameManager : MonoBehaviour , IGameManager
 
     void Awake()
     {
-        _instance = gameObject.GetComponent<GameManager>();
-        
+        _instance = gameObject.GetComponent<TutorialManager>();
     }
 
     //private HighScoreScript _highScoreManager; 
@@ -219,7 +233,7 @@ public class GameManager : MonoBehaviour , IGameManager
     void Start()
     {
         GameState = GameState.Play;
-  
+
         _arrowTransform = transform.FindChild("Arrow");
         _arrowTransform.gameObject.SetActive(false);
 
@@ -251,7 +265,7 @@ public class GameManager : MonoBehaviour , IGameManager
 
         CurDangerlevel = 0;
         if (_mapGenerator == null)
-            _mapGenerator = GetComponent<MapGenerator>();
+            _mapGenerator = GetComponent<TutorialGenerator>();
 
         switch (DifficultyStateObject.CurDifficultyState)
         {
@@ -275,11 +289,17 @@ public class GameManager : MonoBehaviour , IGameManager
         CollectedTreasureAmount = 0;
 
         EnableSwipe = PlayerPrefs.GetInt("Swiping") == 0 ? false : true;
-
+        ShowTutorial = PlayerPrefs.GetInt("Tutorial") == 0 ? false : true;
 
         RumLevel = 0;
         CurKrakenAmmount = 0;
 
+        for (int i = 0; i < (int)TutorialInfo.Count; i++)
+        {
+            _tutorialIsShown[i] = false;
+        }
+        ShowTutorialInfo(TutorialInfo.Intro, null);
+        ShowTutorialInfo(TutorialInfo.FirstMove, null);
 
         //Play the ambient sound effect
         AudioManager.Instance.PlayAmbientSfx("NewAmbienceSfx_00");
@@ -355,6 +375,21 @@ public class GameManager : MonoBehaviour , IGameManager
 
         IsImune = false;
 
+        switch (curTile.GetComponent<GameTile>().ThisType)
+        {
+            case GameTile.TileType.MAP:
+                if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
+                    ShowTutorialInfo(TutorialInfo.Map, null);
+                break;
+            case GameTile.TileType.IMUNE:
+                if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
+                    ShowTutorialInfo(TutorialInfo.Immunity, null);
+                break;
+            default:
+                ShowTutorialInfo((TutorialInfo)curTile.GetComponent<GameTile>().ThisType + 1, null);
+                break;
+        }
+
     }
 
     void ActivateTreasureTile(GameTile curTile)
@@ -391,6 +426,23 @@ public class GameManager : MonoBehaviour , IGameManager
         }
     }
 
+    void ShowTutorialInfo(TutorialInfo tutInfo, List<GameObject> gameObjects)
+    {
+        if (ShowTutorial)
+        {
+
+            if (!_tutorialIsShown[(int)tutInfo])
+            {
+                if (ShowTutorialScreenImplementationScreen != null)
+                {
+                    ShowTutorialScreenImplementationScreen(new TutorialData(tutInfo, gameObjects));
+                    _tutorialIsShown[(int)tutInfo] = true;
+                }
+            }
+
+        }
+    }
+
     void ActivateTileMap(GameTile curTile)
     {
         if (curTile)
@@ -416,12 +468,34 @@ public class GameManager : MonoBehaviour , IGameManager
                 tiles.Add(tile);
                 tile.GetComponent<GameTile>().ShowObject();
                 tile.GetComponent<GameTile>().ShowEmphasis(3.0f);
+                switch (tile.GetComponent<GameTile>().ThisType)
+                {
+                    case GameTile.TileType.MAP:
+                        if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
+                            ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { tile.gameObject });
+                        break;
+                    case GameTile.TileType.IMUNE:
+                        if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
+                            ShowTutorialInfo(TutorialInfo.Immunity, new List<GameObject>() { tile.gameObject });
+                        break;
+                    case GameTile.TileType.POWDERKEG:
+                        if (!_tutorialIsShown[(int)TutorialInfo.PowderkegActivate])
+                            ShowTutorialInfo(TutorialInfo.Powderkeg, new List<GameObject>() { tile.gameObject });
+                        break;
+                    default:
+                        ShowTutorialInfo((TutorialInfo)tile.GetComponent<GameTile>().ThisType + 1, new List<GameObject>() { tile.gameObject });
+                        break;
+                }
 
                 if (tile.GetComponent<GameTile>().ThisType == GameTile.TileType.BAD && tile.GetComponent<GameTile>().CurrentTileStatus == GameTile.TileStatus.CLEAR)
                     ++CurKrakenAmmount;
                 HiddenTileList.RemoveAt(randomIndex);
             }
         }
+
+
+        ShowTutorialInfo(TutorialInfo.MapActivate, tiles);
+        _tutorialIsShown[(int)TutorialInfo.Map] = true;
 
     }
 
@@ -455,11 +529,34 @@ public class GameManager : MonoBehaviour , IGameManager
                 neighbour.GetComponent<GameTile>().ShowObject();
                 neighbour.GetComponent<GameTile>().ShowEmphasis(3.0f);
 
+                switch (neighbour.GetComponent<GameTile>().ThisType)
+                {
+                    case GameTile.TileType.MAP:
+                        if (!_tutorialIsShown[(int)TutorialInfo.MapActivate])
+                            ShowTutorialInfo(TutorialInfo.Map, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                    case GameTile.TileType.IMUNE:
+                        if (!_tutorialIsShown[(int)TutorialInfo.ImmunityActivate])
+                            ShowTutorialInfo(TutorialInfo.Immunity, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                    case GameTile.TileType.POWDERKEG:
+                        if (!_tutorialIsShown[(int)TutorialInfo.PowderkegActivate])
+                            ShowTutorialInfo(TutorialInfo.Powderkeg, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                    default:
+                        ShowTutorialInfo((TutorialInfo)neighbour.GetComponent<GameTile>().ThisType + 1, new List<GameObject>() { neighbour.gameObject });
+                        break;
+                }
 
                 HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(neighbour.GetComponent<GameTile>().Q, neighbour.GetComponent<GameTile>().R)));
             }
         }
 
+        if (curTile)
+        {
+            ShowTutorialInfo(TutorialInfo.PowderkegActivate, tiles);
+            _tutorialIsShown[(int)TutorialInfo.Powderkeg] = true;
+        }
 
         AudioManager.Instance.PlaySound("ExplosionSfx", 0.35f);
 
@@ -472,6 +569,8 @@ public class GameManager : MonoBehaviour , IGameManager
         if (RumLevel <= MaxRumStack)
             RumLevel++;
 
+        ShowTutorialInfo(TutorialInfo.ImmunityActivate, null);
+        _tutorialIsShown[(int)TutorialInfo.Immunity] = true;
     }
 
     public void ActivateImunity()
@@ -520,6 +619,17 @@ public class GameManager : MonoBehaviour , IGameManager
     public void SetSwiping(bool value)
     {
         EnableSwipe = value;
+    }
+
+    public void SetTutorial(bool value)
+    {
+        ShowTutorial = value;
+        PlayerPrefs.SetInt("Tutorial", value ? 1 : 0);
+    }
+    public void SetTutorialInverse(bool value)
+    {
+        ShowTutorial = !value;
+        PlayerPrefs.SetInt("Tutorial", !value ? 1 : 0);
     }
 
 }

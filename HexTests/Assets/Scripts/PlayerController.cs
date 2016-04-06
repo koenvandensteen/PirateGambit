@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
         if (_player.IsMoving)
             return;
-        
+
 #if UNITY_IOS || UNITY_ANDROID
 
         ////

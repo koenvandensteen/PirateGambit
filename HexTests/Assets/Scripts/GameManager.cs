@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
 
     public int MaxRumStack = 3;
 
-    
+
     public bool HasMoved = false;
     #endregion
 
@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         State = GameState.Play;
-        
+
         _arrowTransform = transform.FindChild("Arrow");
         _arrowTransform.gameObject.SetActive(false);
 
@@ -307,7 +307,7 @@ public class GameManager : MonoBehaviour
         GameMap.GetTile(Vector2.zero).GetComponent<GameTile>().ActivateTile();
 
         CollectedTreasureAmount = 0;
-        
+
         EnableSwipe = PlayerPrefs.GetInt("Swiping") == 0 ? false : true;
         ShowTutorial = PlayerPrefs.GetInt("Tutorial") == 0 ? false : true;
 
@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
 
         //Play the ambient sound effect
         AudioManager.Instance.PlayAmbientSfx("NewAmbienceSfx_00");
-       
+
 
         _playerController = PlayerController.Instance;
         _playerController.StartGame();
@@ -364,7 +364,7 @@ public class GameManager : MonoBehaviour
 
         switch (curTile.ThisType)
         {
-            case GameTile.TileType.EMPTY:            
+            case GameTile.TileType.EMPTY:
                 HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
                 break;
 
@@ -464,7 +464,7 @@ public class GameManager : MonoBehaviour
 
     void ActivateTileMap(GameTile curTile)
     {
-        if(curTile)
+        if (curTile)
         {
             HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
         }

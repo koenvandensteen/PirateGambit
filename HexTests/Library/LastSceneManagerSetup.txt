@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/NewMenu.unity
+- path: Assets/_Scenes/ThomasTest.unity
   isLoaded: 1
   isActive: 1

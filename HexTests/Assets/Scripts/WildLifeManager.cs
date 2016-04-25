@@ -35,10 +35,10 @@ public class WildLifeManager : MonoBehaviour {
 
     //private float _curDolphinInterval = 0f;
     private int _dolphinCount = 0;
-    private GameManager _thisManager;
+    private BaseManager _thisManager;
 
     void Start() {
-        _thisManager = GameManager.Instance;
+        _thisManager = BaseManager.Instance;
     }
 
     // Update is called once per frame

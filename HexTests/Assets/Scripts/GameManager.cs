@@ -10,232 +10,18 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public enum GameState
+public class GameManager : BaseManager 
 {
-    Pause,
-    Play,
-}
 
-public class GameManager : MonoBehaviour , IGameManager
-{
-    private static GameManager _instance;
-    public static GameManager Instance
-    {
-        get { return _instance; }
-        private set { }
-    }
-
-    #region UI
-
-    private PlayerController _playerController;
-    private Player _player;
-    public InGameMenu_Main InGameMenu;
-
-    private GameState _state = GameState.Play;
-    public GameState GameState
-    {
-        get
-        {
-            return _state;
-        }
-        set
-        {
-            switch (value)
-            {
-                case GameState.Pause:
-                    break;
-                case GameState.Play:
-                    break;
-                default:
-                    break;
-            }
-            _state = value;
-        }
-    }
-
-
-    public int MaxTreasureAmmount { get; set; }
-
-    public ParticleSystem TreasureParticles;
-    public BarrelRevealScript BarrelParticles;
-    public MapRevealScript MapParticles;
-
-    public List<Vector2> HiddenTileList;
-
-    [HideInInspector]
-    public int MaxKrakenAmmount;
-
-    #region Current Krakens
-    private int _curKrakenAmmount;
-
-    public int CurKrakenAmmount
-    {
-        get { return _curKrakenAmmount; }
-        set
-        {
-            _curKrakenAmmount = value;
-            if (CurKrakenAmmountChangedImplementation != null)
-                CurKrakenAmmountChangedImplementation(value);
-        }
-    }
-
-    public delegate void OnKrakenAmountChanged(int newValue);
-    public OnKrakenAmountChanged CurKrakenAmmountChangedImplementation;
-    #endregion
-
-
-
-    #endregion
-
-    #region Collected Treasure
-    private int _collectedTreasureAmount;
-    public int CollectedTreasureAmount
-    {
-        get { return _collectedTreasureAmount; }
-        private set
-        {
-            _collectedTreasureAmount = value;
-            if (_collectedTreasureAmount >= MaxTreasureAmmount)
-            {
-                GameOver(true);
-            }
-            if (TreasureChangedImplementation != null)
-                TreasureChangedImplementation(value);
-        }
-    }
-
-    public delegate void OnTreasureChanged(int newValue);
-    public OnTreasureChanged TreasureChangedImplementation;
-    #endregion
-
-    #region Danger Level
-    private int _curDangerLevel;
-    public int CurDangerlevel
-    {
-        get { return _curDangerLevel; }
-        set
-        {
-            _curDangerLevel = value;
-            if (DangerLevelChangedImplementation != null)
-                DangerLevelChangedImplementation(value);
-        }
-    }
-
-    public delegate void DangerLevelChanged(int newValue);
-    public DangerLevelChanged DangerLevelChangedImplementation;
-    #endregion
-
-    #region Immunity Level
-    private int _RumLevel;
-    public int RumLevel
-    {
-        get { return _RumLevel; }
-        set
-        {
-            _RumLevel = value;
-            if (RumlevelChangedImplementation != null)
-                RumlevelChangedImplementation(value);
-        }
-    }
-
-    public delegate void RumLevelChanged(int newValue);
-    public RumLevelChanged RumlevelChangedImplementation;
-
-    #endregion
-
-    private Transform _arrowTransform;
-
-    public HexMap GameMap { get; set; }
-
-
-    #region mapVariables
-    private MapGenerator _mapGenerator;
-
-
-    public int EasyMapSize = 7;
-    public int MediumMapSize = 9;
-    public int HardMapSize = 11;
-    private int _curMapSize;
-    public int HexRadius = 1;
-    public int MapTilePower = 5;
-
-    public int HiddenTiles { get; set; }
-    #endregion
-
-
-    #region Player Variables
-    private bool _isImune = false;
-    public bool IsImune
-    {
-        get
-        {
-            return _isImune;
-        }
-        private set
-        {
-            _isImune = value;
-            PlayerController.Instance.PlayerRef.Shield.SetActive(value);
-        }
-    }
-
-    public int MaxRumStack = 3;
-
-    
-    #endregion
-
-    public SwipeManager SwipeVisualization;
-    private bool _swipingEnabled = false;
-
-    public bool EnableSwipe
-    {
-        get
-        {
-            return _swipingEnabled;
-        }
-        set
-        {
-            if (SwipeVisualization != null)
-            {
-                SwipeVisualization.DoShow = value;
-            }
-            _swipingEnabled = value;
-        }
-    }
-    #region Timer
-    private float _timer = 0;
-    public float GameTime { get { return _timer; } }
-
-    #endregion
-
-    void Awake()
-    {
-        _instance = gameObject.GetComponent<GameManager>();
-        
-    }
-
-    //private HighScoreScript _highScoreManager; 
-
-    // Use this for initialization
     void Start()
     {
         GameState = GameState.Play;
-  
+        
+
         _arrowTransform = transform.FindChild("Arrow");
         _arrowTransform.gameObject.SetActive(false);
 
         StartNewGame();
-    }
-
-    public void PauseGame()
-    {
-        SwipeVisualization.gameObject.SetActive(false);
-        GameState = GameState.Pause;
-    }
-
-    public void ResumeGame()
-    {
-        SwipeVisualization.gameObject.SetActive(true);
-        GameState = GameState.Play;
     }
 
     public void StartNewGame()
@@ -292,24 +78,8 @@ public class GameManager : MonoBehaviour , IGameManager
         ActivateTileKeg(null);
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (GameState != GameState.Play || _player.IsDead)
-            return;
-
-        //Update timer for score
-        _timer += Time.deltaTime;
-
-    }
-
-
-
     public void CheckCurrentTile()
     {
-
         var curTile = GameMap.GetTile(_playerController.PlayerPosition).GetComponent<GameTile>();
         CurDangerlevel = curTile.BadNeighbours;
 
@@ -354,10 +124,9 @@ public class GameManager : MonoBehaviour , IGameManager
         }
 
         IsImune = false;
-
     }
 
-    void ActivateTreasureTile(GameTile curTile)
+    override protected void ActivateTreasureTile(GameTile curTile)
     {
         HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
         AudioManager.Instance.PlaySound("coinSfx", 1.2f);
@@ -371,7 +140,7 @@ public class GameManager : MonoBehaviour , IGameManager
         }
     }
 
-    void ActivateBadTile(GameTile curTile)
+    override protected void ActivateBadTile(GameTile curTile)
     {
         if (_arrowTransform)
             _arrowTransform.gameObject.SetActive(false);
@@ -391,13 +160,12 @@ public class GameManager : MonoBehaviour , IGameManager
         }
     }
 
-    void ActivateTileMap(GameTile curTile)
+    override protected void ActivateTileMap(GameTile curTile)
     {
         if (curTile)
         {
             HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
         }
-
 
         AudioManager.Instance.PlaySound("ShieldGongSfx", 0.6f);
         List<GameObject> tiles = new List<GameObject>(MapTilePower);
@@ -425,7 +193,7 @@ public class GameManager : MonoBehaviour , IGameManager
 
     }
 
-    void ActivateTileKeg(GameTile curTile)
+    override protected void ActivateTileKeg(GameTile curTile)
     {
         List<GameObject> tiles = new List<GameObject>();
 
@@ -465,61 +233,13 @@ public class GameManager : MonoBehaviour , IGameManager
 
     }
 
-    void ActivateImuneTile(GameTile curTile)
+    override protected void ActivateImuneTile(GameTile curTile)
     {
         HiddenTileList.Remove(HiddenTileList.Find(v => v == new Vector2(curTile.Q, curTile.R)));
         AudioManager.Instance.PlaySound("GlassClink", 1.0f);
         if (RumLevel <= MaxRumStack)
             RumLevel++;
 
-    }
-
-    public void ActivateImunity()
-    {
-        if (RumLevel <= 0)
-            return;
-
-        --RumLevel;
-        IsImune = true;
-        AudioManager.Instance.PlaySound("GlugSfx", 1.8f);
-
-    }
-
-    public void Quit()
-    {
-        //if windows
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
-    public void ToMain()
-    {
-        AudioManager.Instance.StopCurrentAmbientSfx();
-
-        SceneManager.LoadScene(0);
-    }
-
-    public void GameOver(bool isWin)
-    {
-
-        if (!isWin)
-            AudioManager.Instance.PlaySound("ShipBreakSfx");
-        else
-            AudioManager.Instance.PlaySound("Tada", 1.1f);
-
-        InGameMenu.GameOver(isWin, _timer);
-        for (int i = 0; i < transform.parent.childCount; i++)
-        {
-            Destroy(transform.parent.GetChild(i).gameObject);
-        }
-    }
-
-    public void SetSwiping(bool value)
-    {
-        EnableSwipe = value;
     }
 
 }

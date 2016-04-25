@@ -211,7 +211,7 @@ public class MapGenerator : MonoBehaviour
             maxTileAmmount[i] += Random.Range(0, VariableRandOffset);
         }
 
-        if (SceneManager.GetActiveScene().name == "HexMap")
+        if (SceneManager.GetActiveScene().name == "NormalMode")
         {
             GameManager.Instance.HiddenTileList = new List<Vector2>(hiddenTiles);
         }

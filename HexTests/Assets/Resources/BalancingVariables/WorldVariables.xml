@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<WorldVariables>
+    <WorldElement> 
+		<name>TreasureTutorial</name>
+        <size>3</size>
+        <krakens>5</krakens> 
+        <imunity>5</imunity>
+        <treasure>3</treasure>
+        <kegs>3</kegs>
+        <map>3</map>
+    </WorldElement> 
+    <WorldElement>
+		<name>KrakenTutorial</name>
+        <size>3</size>
+        <krakens>5</krakens> 
+        <imunity>5</imunity>
+        <treasure>3</treasure>
+        <kegs>3</kegs>
+        <map>3</map>
+    </WorldElement>
+    <WorldElement>
+		<name>ImunityTutorial</name>
+        <size>3</size>
+        <krakens>5</krakens> 
+        <imunity>5</imunity>
+        <treasure>3</treasure>
+        <kegs>3</kegs>
+        <map>3</map>
+    </WorldElement>
+    <WorldElement>
+		<name>MapTutorial</name>
+        <size>3</size>
+        <krakens>5</krakens> 
+        <imunity>5</imunity>
+        <treasure>3</treasure>
+        <kegs>3</kegs>
+        <map>3</map>
+    </WorldElement>
+    <WorldElement>
+		<name>KegTutorial</name>
+        <size>3</size>
+        <krakens>5</krakens> 
+        <imunity>5</imunity>
+        <treasure>3</treasure>
+        <kegs>3</kegs>
+        <map>3</map>
+    </WorldElement>
+</WorldVariables>

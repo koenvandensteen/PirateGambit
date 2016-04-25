@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public float SwipeMoveTreshold = 1f;
 
-    private IGameManager _gameManager;
+    private BaseManager _gameManager;
 
     private bool _isSwiping = false;
     private Vector3 _startSwipePos;
@@ -78,14 +78,9 @@ public class PlayerController : MonoBehaviour
 
     public void StartGame()
     {
-        if (_gameManager == null && SceneManager.GetActiveScene().name.Equals("NormalMode"))
+        if (_gameManager == null)
         {
-            _gameManager = GameManager.Instance;
-        }
-
-        if (_gameManager == null && SceneManager.GetActiveScene().name.Equals("TutorialMode"))
-        {
-            _gameManager = TutorialManager.Instance;
+            _gameManager = BaseManager.Instance;
         }
 
         if (_player != null)
@@ -230,30 +225,33 @@ public class PlayerController : MonoBehaviour
                 }
 
             }
-            else
-            {
-                if (!_player.IsMoving)
-                {
-                    ProccesMouse();
-                }
-            }
-
-            if (_rightClickCounter <= 0)
-            {
-                if (Input.GetMouseButtonDown(1))
-                {
-                    ProcessRightMouseClick();
-                    _rightClickCounter = TimeBetweenRightClick;
-                }
-            }
-
-            if (_rightClickCounter > 0)
-            {
-                _rightClickCounter -= Time.deltaTime;
-            }
-#endif
         }
+        else
+        {
+            if (!_player.IsMoving)
+            {
+                ProccesMouse();
+            }
+        }
+
+        if (_rightClickCounter <= 0)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                ProcessRightMouseClick();
+                _rightClickCounter = TimeBetweenRightClick;
+            }
+        }
+
+        if (_rightClickCounter > 0)
+        {
+            _rightClickCounter -= Time.deltaTime;
+        }
+
+
+#endif
     }
+
 
     private void EndSwipe(GameObject moveTarget, Vector2 hexDirection)
     {
